@@ -1,0 +1,5 @@
+- summarize current state of project(as per Kanban)
+- plan for next sprint
+- database schema
+- Heroku Link: https://project4806.herokuapp.com/
+- TravisCI Link: https://www.travis-ci.com/github/thomas7carriere/Project4806
