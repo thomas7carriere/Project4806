@@ -7,13 +7,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * A subclass of the the base Question class
+ * A subclass of the base Question class
  *
  * Basically a huge text box where you can input whatever you want
  */
 @Entity
 @DiscriminatorValue("3")
-public class TextQuestion extends Question{
+public class OpenEndedQuestion extends Question{
 
     /**
      * All the answers provided by user to this question
@@ -24,7 +24,7 @@ public class TextQuestion extends Question{
     /**
      * Default constructor required by JPA
      */
-    public TextQuestion() {
+    public OpenEndedQuestion() {
     }
 
     /**
@@ -32,7 +32,7 @@ public class TextQuestion extends Question{
      *
      * @param question the question to be asked
      */
-    public TextQuestion(String question) {
+    public OpenEndedQuestion(String question) {
         super(question);
     }
 

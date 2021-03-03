@@ -8,22 +8,22 @@ import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
-public class TestTextQuestion {
+public class TestOpenEndedQuestion {
 
-    private TextQuestion q;
+    private OpenEndedQuestion q;
     private static final String QUESTION = "Do you like dogs?";
     private static final String ANSWER1 = "No I HATE dogs";
     private static final String ANSWER2 = "Yes I like dogs";
 
     @Before
     public void setUp() {
-        q = new TextQuestion(QUESTION);
+        q = new OpenEndedQuestion(QUESTION);
     }
 
     @Test
     public void TestDefaultConstructor() {
         // not sure what could be tested...
-        TextQuestion question = new TextQuestion();
+        OpenEndedQuestion question = new OpenEndedQuestion();
         assertNotNull(question);
     }
 

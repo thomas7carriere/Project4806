@@ -18,6 +18,13 @@ public class Question {
         this.question = question;
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 
     public Long getId() {
         return id;
