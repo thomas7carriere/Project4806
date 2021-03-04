@@ -9,8 +9,21 @@ public class Question {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    private String question;
 
     public Question(){
+    }
+
+    public Question(String question){
+        this.question = question;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     public Long getId() {
