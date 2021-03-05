@@ -71,10 +71,12 @@ public class MultipleChoiceQuestion extends Question{
      */
     public void setChoices(Collection<String> choices) {
         this.choices = choices;
+        //Sets a unique ID for each choice and stores them in choicesID map
         for(String choice : choices) {
             choicesID.put(idMapping,choice);
             updateMapID();
         }
+        //Stores each unique ID from choicesID to set the key in answersValues with 0 initial answers
         for(Integer id : choicesID.keySet()) {
             answersValues.put(id,0);
         }
