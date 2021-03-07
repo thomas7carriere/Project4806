@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini-survey monkey</title>
+</head>
+<body>
+<h2>List of all surveys in the system</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name/Link</th>
+    </tr>
+    <th:block th:each="surveyDto: ${surveyDtoList}">
+        <tr>
+            <td th:text="${surveyDto.id}"></td>
+            <td><a th:href="@{/survey/view/{surveyId}(surveyId=${surveyDto.id})}">Survey Name place holder</a></td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

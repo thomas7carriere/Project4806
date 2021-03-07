@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <!-- put proper survey title -->
+    <title>Title</title>
+</head>
+<body>
+<!-- put some survey info here -->
+<form action="#" method="post">
+<div th:each="question : ${surveyDTO.questions}">
+    <p th:text="${questionStat.count}+':'+${question.question}"></p>
+    <div th:switch="${question.QuestionType}">
+        <input type="text" th:case="${T(application.models.QuestionDTO).OPENENDED}"/>
+        <th:block th:case="${T(application.models.QuestionDTO).RANGE}">
+            <input type="range" th:min="${question.min}" th:max="${question.max}"
+                   oninput="this.nextElementSibling.value = this.value"/>
+            <output th:text="${question.min}">0</output>
+        </th:block>
+        <th:block th:case="${T(application.models.QuestionDTO).MULTIPLECHOICE}">
+            <th:block th:each="choice : ${question.choices}">
+                <!-- need to give short unique names and figure out why there is a stray /input tag-->
+                <input type="radio" th:name="${question.question}" th:text="${choice}"/>
+                <br>
+            </th:block>
+        </th:block>
+    </div>
+    <hr>
+</div>
+<input type="submit" value="Submit answers">
+</form>
+</body>
+</html>

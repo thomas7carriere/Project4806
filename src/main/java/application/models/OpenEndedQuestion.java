@@ -3,6 +3,7 @@ package application.models;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -63,6 +64,11 @@ public class OpenEndedQuestion extends Question{
      */
     public boolean addAnswer(String answer) {
         return this.answer.add(answer);
+    }
+
+    @Override
+    public QuestionDTO toDto() {
+        return new QuestionDTO(QuestionDTO.OPENENDED, this.getQuestion(), 0, 0, new ArrayList<>());
     }
 
 }

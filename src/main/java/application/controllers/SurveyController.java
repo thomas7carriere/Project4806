@@ -5,17 +5,19 @@ import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class SurveyController{
 
     private final String SURVEY_CREATE = "/survey/create";
+    private final String SURVEY_VIEW_LIST = "/survey/view";
     private final String SURVEY_VIEW_ID = "/survey/view/{surveyId}";
     private final String OPENENDED = "openEnded", RANGE = "range", MULTIPLECHOICE = "multipleChoice";
 
@@ -65,5 +67,28 @@ public class SurveyController{
         survey.setName(surveyDTO.getName());
         surveyRepo.save(survey);
         return survey;
+    }
+
+
+    @GetMapping(SURVEY_VIEW_ID)
+    public String viewSurvey(Model model, @PathVariable String surveyId) {
+        Survey survey = surveyRepo.findById(Long.parseLong(surveyId));
+        if (survey == null) {
+            return "404"; //TODO? add more detailed message?
+        } else {
+            SurveyDTO surveyDTO = new SurveyDTO(survey);
+            model.addAttribute("surveyDTO", surveyDTO);
+            return "viewSurvey";
+        }
+    }
+
+    @GetMapping(SURVEY_VIEW_LIST)
+    public String viewSurveyList(Model model) {
+        Iterable<Survey> surveys = surveyRepo.findAll();
+        List<SurveyDTO> surveyDtoList = new ArrayList<>();
+        surveys.forEach(e-> surveyDtoList.add(new SurveyDTO(e)));
+
+        model.addAttribute("surveyDtoList", surveyDtoList);
+        return "viewSurveyList";
     }
 }
