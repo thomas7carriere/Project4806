@@ -26,7 +26,7 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 <H3>Links</H3>
 
 - Heroku: https://project4806.herokuapp.com/
-- TravisCI: https://www.travis-ci.com/github/thomas7carriere/Project4806\
+- TravisCI: https://www.travis-ci.com/github/thomas7carriere/Project4806
   
 These need to be added to the README:
 - plan for next sprint

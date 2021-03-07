@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Create a Survey Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/scripts/createSurvey.js"></script>
+</head>
+<body>
+
+<form id="qSelectForm" onsubmit="return addQuestion(event)">
+    <label for="qDropDown">Select a question type</label><br>
+    <select name="qDropDown" id="qDropDown" onchange="toggleMC()">
+        <option value="openEnded">OpenEnded Question</option>
+        <option value="range">Range Question</option>
+        <option value="multipleChoice">MC Question</option>
+    </select><br>
+
+    <div id="divMC">
+        <label for="numberOfMultipleChoices">Number of MC answers:</label><br>
+        <input type="text" id="numberOfMultipleChoices"><br>
+    </div>
+    <input type="submit" value="Create Question">
+</form>
+
+<button onclick="sendSurvey()">Create Survey</button>
+
+</body>
+</html>
