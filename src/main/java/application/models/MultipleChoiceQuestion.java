@@ -44,7 +44,7 @@ public class MultipleChoiceQuestion extends Question{
      * Do not use when creating questions
      */
     public MultipleChoiceQuestion(){
-
+        super();
     }
 
     /**
