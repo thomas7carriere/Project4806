@@ -25,6 +25,7 @@ public class OpenEndedQuestion extends Question{
      * Default constructor required by JPA
      */
     public OpenEndedQuestion() {
+        super();
     }
 
     /**
