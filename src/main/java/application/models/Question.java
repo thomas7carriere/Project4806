@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity(name="questions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="question_type", discriminatorType = DiscriminatorType.INTEGER)
-public class Question {
+abstract public class Question {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -33,4 +33,11 @@ public class Question {
     public void setId(Long id) {
         this.id = id;
     }
+
+    /**
+     * Return the DTO version of this object
+     *
+     * @return DTO object to be passed to the view
+     */
+    abstract public QuestionDTO toDto();
 }
