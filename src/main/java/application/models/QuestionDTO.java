@@ -13,6 +13,8 @@ public class QuestionDTO {
     private int max;
     private Collection<String> choices;
 
+    public static final String OPENENDED = "openEnded", RANGE = "range", MULTIPLECHOICE = "multipleChoice";
+
     public QuestionDTO(){}
 
     public QuestionDTO(String questionType, String question, int min, int max, Collection<String> choices) {

@@ -5,19 +5,20 @@ import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class SurveyController{
 
     private final String SURVEY_CREATE = "/survey/create";
+    private final String SURVEY_VIEW_LIST = "/survey/view";
     private final String SURVEY_VIEW_ID = "/survey/view/{surveyId}";
-    private final String OPENENDED = "openEnded", RANGE = "range", MULTIPLECHOICE = "multipleChoice";
 
 
     private SurveyRepository surveyRepo;
@@ -51,13 +52,13 @@ public class SurveyController{
 
         for(QuestionDTO question : questions){
             switch(question.getQuestionType()){
-                case OPENENDED:
+                case QuestionDTO.OPENENDED:
                     survey.addQuestion(new OpenEndedQuestion(question.getQuestion()));
                     break;
-                case RANGE:
+                case QuestionDTO.RANGE:
                     survey.addQuestion(new RangeQuestion(question.getQuestion(), question.getMin(), question.getMax()));
                     break;
-                case MULTIPLECHOICE:
+                case QuestionDTO.MULTIPLECHOICE:
                     survey.addQuestion(new MultipleChoiceQuestion(question.getQuestion(), question.getChoices()));
                     break;
             }
@@ -65,5 +66,41 @@ public class SurveyController{
         survey.setName(surveyDTO.getName());
         surveyRepo.save(survey);
         return survey;
+    }
+
+
+    /**
+     * Shows the content of specific survey
+     *
+     * @param model
+     * @param surveyId id in Survey DAO
+     * @return
+     */
+    @GetMapping(SURVEY_VIEW_ID)
+    public String viewSurvey(Model model, @PathVariable String surveyId) {
+        Survey survey = surveyRepo.findById(Long.parseLong(surveyId));
+        if (survey == null) {
+            return "404"; //TODO: implement proper error pages
+        } else {
+            SurveyDTO surveyDTO = new SurveyDTO(survey);
+            model.addAttribute("surveyDto", surveyDTO);
+            return "viewSurvey";
+        }
+    }
+
+    /***
+     * Shows all surveys in the system
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping(SURVEY_VIEW_LIST)
+    public String viewSurveyList(Model model) {
+        Iterable<Survey> surveys = surveyRepo.findAll();
+        List<SurveyDTO> surveyDtoList = new ArrayList<>();
+        surveys.forEach(e-> surveyDtoList.add(new SurveyDTO(e)));
+
+        model.addAttribute("surveyDtoList", surveyDtoList);
+        return "viewSurveyList";
     }
 }

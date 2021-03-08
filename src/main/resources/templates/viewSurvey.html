@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${surveyDto.name}"></title>
+</head>
+<body>
+<!-- TODO: put some survey info here? -->
+<!-- TODO: need replace *Stat.count with proper questionDto id-->
+<form action="#" method="post">
+<div th:each="questionDto : ${surveyDto.questions}">
+    <p th:text="${questionDtoStat.count}+': '+${questionDto.question}"></p><th:block th:switch="${questionDto.questionType}">
+        <label th:case="${T(application.models.QuestionDTO).OPENENDED}">
+            <textarea th:id="'q'+${questionDtoStat.count}" rows="10" cols="30"></textarea>
+        </label>
+        <label th:case="${T(application.models.QuestionDTO).RANGE}">
+            <input type="range" th:id="'q'+${questionDtoStat.count}" th:min="${questionDto.min}" th:max="${questionDto.max}"
+                   oninput="this.nextElementSibling.value = this.value"/>
+            <output th:text="${questionDto.min}">0</output>
+        </label>
+        <th:block th:case="${T(application.models.QuestionDTO).MULTIPLECHOICE}">
+            <label th:each="choice : ${questionDto.choices}">
+                <input type="radio" th:name="'q'+${questionDtoStat.count}"
+                           th:id="'q'+${questionDtoStat.count}+'c'+${choiceStat.count}"
+                           th:value="'q'+${questionDtoStat.count}+'c'+${choiceStat.count}"/>
+                <label th:text="${choice}"></label>
+                <br>
+            </label>
+        </th:block>
+    </th:block>
+    <hr>
+</div>
+    <!-- TODO: this does do anything at this moment -->
+<input type="submit" value="Submit answers">
+</form>
+</body>
+</html>

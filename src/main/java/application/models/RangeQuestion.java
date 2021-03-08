@@ -106,5 +106,9 @@ public class RangeQuestion extends Question
         return this.answer.add(answer);
     }
 
+    @Override
+    public QuestionDTO toDto() {
+        return new QuestionDTO(QuestionDTO.RANGE, this.getQuestion(), this.min, this.max, new ArrayList<>());
+    }
 
 }
