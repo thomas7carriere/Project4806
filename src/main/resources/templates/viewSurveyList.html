@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Mini-survey monkey</title>
@@ -12,12 +12,10 @@
         <th>ID</th>
         <th>Name/Link</th>
     </tr>
-    <th:block th:each="surveyDto: ${surveyDtoList}">
-        <tr>
-            <td th:text="${surveyDto.id}"></td>
-            <td><a th:href="@{/survey/view/{surveyId}(surveyId=${surveyDto.id})}">Survey Name place holder</a></td>
-        </tr>
-    </th:block>
+    <tr th:each="surveyDto: ${surveyDtoList}">
+        <td th:text="${surveyDto.id}"></td>
+        <td><a th:href="@{/survey/view/{surveyId}(surveyId=${surveyDto.id})}" th:text="${surveyDto.name}"></a></td>
+    </tr>
 </table>
 </body>
 </html>

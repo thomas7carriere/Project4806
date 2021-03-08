@@ -1,32 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- put proper survey title -->
-    <title>Title</title>
+    <title th:text="${surveyDto.name}"></title>
 </head>
 <body>
-<!-- put some survey info here -->
+<!-- TODO: put some survey info here? -->
+<!-- TODO: need replace *Stat.count with proper questionDto id-->
 <form action="#" method="post">
-<div th:each="question : ${surveyDTO.questions}">
-    <p th:text="${questionStat.count}+':'+${question.question}"></p>
-    <div th:switch="${question.QuestionType}">
-        <input type="text" th:case="${T(application.models.QuestionDTO).OPENENDED}"/>
-        <th:block th:case="${T(application.models.QuestionDTO).RANGE}">
-            <input type="range" th:min="${question.min}" th:max="${question.max}"
+<div th:each="questionDto : ${surveyDto.questions}">
+    <p th:text="${questionDtoStat.count}+': '+${questionDto.question}"></p><th:block th:switch="${questionDto.questionType}">
+        <label th:case="${T(application.models.QuestionDTO).OPENENDED}">
+            <textarea th:id="'q'+${questionDtoStat.count}" rows="10" cols="30"></textarea>
+        </label>
+        <label th:case="${T(application.models.QuestionDTO).RANGE}">
+            <input type="range" th:id="'q'+${questionDtoStat.count}" th:min="${questionDto.min}" th:max="${questionDto.max}"
                    oninput="this.nextElementSibling.value = this.value"/>
-            <output th:text="${question.min}">0</output>
-        </th:block>
+            <output th:text="${questionDto.min}">0</output>
+        </label>
         <th:block th:case="${T(application.models.QuestionDTO).MULTIPLECHOICE}">
-            <th:block th:each="choice : ${question.choices}">
-                <!-- need to give short unique names and figure out why there is a stray /input tag-->
-                <input type="radio" th:name="${question.question}" th:text="${choice}"/>
+            <label th:each="choice : ${questionDto.choices}">
+                <input type="radio" th:name="'q'+${questionDtoStat.count}"
+                           th:id="'q'+${questionDtoStat.count}+'c'+${choiceStat.count}"
+                           th:value="'q'+${questionDtoStat.count}+'c'+${choiceStat.count}"/>
+                <label th:text="${choice}"></label>
                 <br>
-            </th:block>
+            </label>
         </th:block>
-    </div>
+    </th:block>
     <hr>
 </div>
+    <!-- TODO: this does do anything at this moment -->
 <input type="submit" value="Submit answers">
 </form>
 </body>

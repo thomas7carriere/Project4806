@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
 
-/*
-    Tools for assisting development
+/***
+ *     Tools for assisting development
  */
 @Controller
 class DevToolController {
@@ -26,13 +26,16 @@ class DevToolController {
     }
 
 
-    /*
-        Create a survey with questions when http GET is issued
+    /***
+     *  Create a survey with questions when http GET is issued
+     *
+     * @return
      */
     @GetMapping("/cheat")
     @ResponseBody
     String getSurveyPage() {
         Survey survey = new Survey();
+        survey.setName("Dummy test survey");
         survey.addQuestion(new RangeQuestion("Pick a number from range", 10, 100));
         survey.addQuestion(new MultipleChoiceQuestion("Pick an animal", Arrays.asList("dog", "cat", "hamster")));
         survey.addQuestion(new OpenEndedQuestion("Enter some random stuff"));

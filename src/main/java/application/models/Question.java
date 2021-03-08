@@ -34,5 +34,10 @@ abstract public class Question {
         this.id = id;
     }
 
+    /**
+     * Return the DTO version of this object
+     *
+     * @return DTO object to be passed to the view
+     */
     abstract public QuestionDTO toDto();
 }

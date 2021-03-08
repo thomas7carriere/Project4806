@@ -12,7 +12,6 @@ public class QuestionDTO {
     private int min;
     private int max;
     private Collection<String> choices;
-    private String answer;
 
     public static final String OPENENDED = "openEnded", RANGE = "range", MULTIPLECHOICE = "multipleChoice";
 
@@ -45,14 +44,6 @@ public class QuestionDTO {
     public Collection<String> getChoices() { return choices; }
 
     public void setChoices(Collection<String> choices) { this.choices = choices; }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
 
     @Override
     public String toString(){

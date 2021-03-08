@@ -25,12 +25,16 @@ public class SurveyDTO {
         this.questions = questions;
     }
 
+    /**
+     * Construct DTO version of the Survey object
+     *
+     * @param survey Survey DAO
+     */
     public SurveyDTO(Survey survey) {
         this.id = survey.getId();
-        questions = new ArrayList<>();
-        for (Question question : survey.getQuestions()) {
-            questions.add(question.toDto());
-        }
+        this.name = survey.getName();
+        this.questions = new ArrayList<>();
+        survey.getQuestions().forEach(e->this.questions.add(e.toDto()));
     }
 
     public String getName() {
@@ -39,7 +43,6 @@ public class SurveyDTO {
 
     public void setName(String name) {
         this.name = name;
-
     }
 
     public Collection<QuestionDTO> getQuestions() {
