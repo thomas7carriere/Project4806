@@ -136,7 +136,7 @@ function validateQuestion(){
     let numberOfChoices = $("#numberOfMultipleChoices").val();
     if(selectedQuestion === questionType.MULTIPLE_CHOICE) {
         if (numberOfChoices > MAX_MULTIPLECHOICE || numberOfChoices < 2) {
-            console.log("Invalid number of choices");
+            alert("Invalid number of choices. Please select between 2 and " + MAX_MULTIPLECHOICE);
             return false;
         }
     }
