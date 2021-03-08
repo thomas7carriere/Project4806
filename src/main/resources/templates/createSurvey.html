@@ -8,6 +8,10 @@
 </head>
 <body>
 
+<div id="surveyNameDiv">
+    <input type="text" id="surveyName" placeholder="Survey Name">
+</div>
+
 <form id="qSelectForm" onsubmit="return addQuestion(event)">
     <label for="qDropDown">Select a question type</label><br>
     <select name="qDropDown" id="qDropDown" onchange="toggleMC()">

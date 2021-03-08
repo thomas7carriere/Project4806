@@ -62,6 +62,7 @@ public class SurveyController{
                     break;
             }
         }
+        survey.setName(surveyDTO.getName());
         surveyRepo.save(survey);
         return survey;
     }

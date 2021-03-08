@@ -24,7 +24,9 @@ var questionCount = 0;
  * SurveyDTO representation used to store questions
  * @type JSON object
  */
-var survey = { "questions" : [] };
+var survey = {
+    "name" : "",
+    "questions" : [] };
 
 /**
  * Called when question Selection Form is submitted. Creates a new question form with appropriate inputs.
@@ -94,6 +96,7 @@ function sendSurvey(){
             formArray["choices"] = choiceArray;
         }
         survey["questions"][i - 1] = formArray;
+        survey["name"] = $("#surveyName").val();
     }
     console.log(JSON.stringify(survey));
     $.ajax({
@@ -156,12 +159,12 @@ function validateSurvey(){
     let breakOut = false;
     $(".questionForm input").each(function () {
         if($(this).val() ===""){
-            alert("Please fill in all question fields");
             breakOut = true;
             return false;
         }
     });
-    if(breakOut){
+    if(breakOut || $("#surveyName").val() ==""){
+        alert("Please fill in Survey Name and all Question Fields");
         return false;
     }
     return true;
