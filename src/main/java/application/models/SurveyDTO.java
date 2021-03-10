@@ -17,7 +17,7 @@ public class SurveyDTO {
     public SurveyDTO() {}
 
     public SurveyDTO(Collection<QuestionDTO> questions) {
-        this.questions = questions;
+        this("", questions);
     }
 
     public SurveyDTO(String name, Collection<QuestionDTO> questions) {
