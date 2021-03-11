@@ -1,6 +1,7 @@
 package application.models;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * A Data Transfer Object representing a Question Object
@@ -63,5 +64,17 @@ public class QuestionDTO {
              break;
         }
     return str;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuestionDTO that = (QuestionDTO) o;
+        return min == that.min &&
+                max == that.max &&
+                Objects.equals(questionType, that.questionType) &&
+                Objects.equals(question, that.question) &&
+                Objects.equals(choices, that.choices);
     }
 }
