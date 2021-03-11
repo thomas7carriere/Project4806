@@ -8,14 +8,12 @@ import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,12 +29,10 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@WebAppConfiguration
+@AutoConfigureMockMvc
 public class TestSurveyController
 {
     @Autowired
-    WebApplicationContext webApplicationContext;
-
     private MockMvc mockMvc;
     private QuestionDTO q1, q2, q3;
     private SurveyDTO surveyDTO;
@@ -48,7 +44,6 @@ public class TestSurveyController
     @Before
     public void setUp()
     {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         QuestionDTO q1 = new QuestionDTO();q1.setQuestionType(QuestionDTO.OPENENDED);q1.setQuestion("OpenEnded Question?");
         QuestionDTO q2 = new QuestionDTO();q2.setQuestionType(QuestionDTO.RANGE);q2.setQuestion("Range Question?");q2.setMin(1);q2.setMax(5);
         QuestionDTO q3 = new QuestionDTO();q3.setQuestionType(QuestionDTO.MULTIPLECHOICE);q3.setQuestion("MC Question?");Collection<String> choices = new ArrayList<>();choices.add("Choice1");choices.add("Choice2");choices.add("Choice3");q3.setChoices(choices);
