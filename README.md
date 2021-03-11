@@ -53,6 +53,40 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 	</tr>
 </table>
 
+<H3>Endpoints</H3>
+
+<table>
+	<tr>
+		<th>URL</th>
+		<th>Method</th>
+	</tr>
+	<tr>
+		<td>/survey/create</td>
+		<td>
+			<ul>
+				<li>GET</li>
+				<li>POST</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>/survey/view</td>
+		<td>
+			<ul>
+			    <li>GET</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+        <td>/survey/view/{surveyId}</td>
+        <td>
+            <ul>
+                <li>GET</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
 <H3>Links</H3>
 
 - Heroku: https://project4806.herokuapp.com/
