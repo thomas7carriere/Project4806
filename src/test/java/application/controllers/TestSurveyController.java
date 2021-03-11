@@ -100,6 +100,7 @@ public class TestSurveyController
     }
 
     @Test
+    @Order(6)
     public void createSurveyWithoutContent() throws Exception {
         mockMvc.perform(post("/survey/create")).andExpect(status().isBadRequest());
     }
