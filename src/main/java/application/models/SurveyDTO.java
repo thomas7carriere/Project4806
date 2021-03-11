@@ -1,5 +1,7 @@
 package application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,6 +14,7 @@ public class SurveyDTO {
     private String name;
 
     private Collection<QuestionDTO> questions;
+    @JsonIgnore
     private long id;
 
     public SurveyDTO() {}

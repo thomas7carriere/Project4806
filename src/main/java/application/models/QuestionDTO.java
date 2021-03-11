@@ -1,5 +1,7 @@
 package application.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Collection;
 import java.util.Objects;
 
@@ -10,8 +12,11 @@ public class QuestionDTO {
 
     private String questionType;
     private String question;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int min;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int max;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Collection<String> choices;
 
     public static final String OPENENDED = "openEnded", RANGE = "range", MULTIPLECHOICE = "multipleChoice";

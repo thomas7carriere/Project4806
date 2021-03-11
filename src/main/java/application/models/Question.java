@@ -1,5 +1,7 @@
 package application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity(name="questions")
@@ -8,6 +10,7 @@ import javax.persistence.*;
 abstract public class Question {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     private String question;
 
