@@ -73,18 +73,18 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 		<td>/survey/view</td>
 		<td>
 			<ul>
-			    <li>GET</li>
+				<li>GET</li>
 			</ul>
 		</td>
 	</tr>
-    <tr>
-        <td>/survey/view/{surveyId}</td>
-        <td>
-            <ul>
-                <li>GET</li>
-            </ul>
-        </td>
-    </tr>
+	<tr>
+		<td>/survey/view/{surveyId}</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
+	</tr>
 </table>
 
 <H3>Links</H3>
