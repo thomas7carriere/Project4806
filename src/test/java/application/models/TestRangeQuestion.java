@@ -1,13 +1,10 @@
 package application.models;
 
-
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import static org.junit.Assert.*;
-
 public class TestRangeQuestion {
 
     private RangeQuestion q1;
@@ -22,6 +19,12 @@ public class TestRangeQuestion {
         q1 = new RangeQuestion("How old are you?", 0, 117); //Fun fact: The oldest person alive today is 117 in Japan;)
         q2 = new RangeQuestion("How likely is it that this group will ace the project?", 1, 10);
         q3 = new RangeQuestion();
+    }
+
+    @Test
+    public void TestDefaultConstructor(){
+        RangeQuestion q = new RangeQuestion();
+        assertNotNull(q);
     }
 
     @Test
