@@ -53,7 +53,7 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 	</tr>
 </table>
 
-<H3>Endpoints</H3>
+<H3>Endpoints:</H3>
 
 <table>
 	<tr>
@@ -87,10 +87,8 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 	</tr>
 </table>
 
-<H3>Links</H3>
+<H3>Links:</H3>
 
 - Heroku: https://project4806.herokuapp.com/
 - TravisCI: https://www.travis-ci.com/github/thomas7carriere/Project4806
-  
-These need to be added to the README:
-- database schema 
+- Database Schema: [Milestone 1 Schema](https://github.com/thomas7carriere/Project4806/blob/master/Milestone1-Documents/Schema-Milestone1.png?raw=true)
