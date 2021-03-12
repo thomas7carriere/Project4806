@@ -1,6 +1,9 @@
 package application.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * A Data Transfer Object representing a Question Object
@@ -9,8 +12,11 @@ public class QuestionDTO {
 
     private String questionType;
     private String question;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int min;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int max;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Collection<String> choices;
 
     public static final String OPENENDED = "openEnded", RANGE = "range", MULTIPLECHOICE = "multipleChoice";
@@ -63,5 +69,17 @@ public class QuestionDTO {
              break;
         }
     return str;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuestionDTO that = (QuestionDTO) o;
+        return min == that.min &&
+                max == that.max &&
+                Objects.equals(questionType, that.questionType) &&
+                Objects.equals(question, that.question) &&
+                Objects.equals(choices, that.choices);
     }
 }
