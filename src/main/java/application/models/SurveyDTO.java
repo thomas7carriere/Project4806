@@ -12,8 +12,8 @@ import java.util.Collection;
 public class SurveyDTO {
 
     private String name;
-
     private Collection<QuestionDTO> questions;
+    private boolean open;
     @JsonIgnore
     private long id;
 
@@ -37,6 +37,7 @@ public class SurveyDTO {
         this.id = survey.getId();
         this.name = survey.getName();
         this.questions = new ArrayList<>();
+        this.open = survey.isOpen();
         survey.getQuestions().forEach(e->this.questions.add(e.toDto()));
     }
 
@@ -63,4 +64,8 @@ public class SurveyDTO {
     public void setId(long id) {
         this.id = id;
     }
+
+    public boolean isOpen() { return open; }
+
+    public void setOpen(boolean open) { this.open = open; }
 }

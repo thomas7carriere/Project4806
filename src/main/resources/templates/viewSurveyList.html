@@ -5,7 +5,7 @@
     <title>Mini-survey monkey</title>
 </head>
 <body>
-<h2>List of all surveys in the system</h2>
+<h2>List of all open surveys in the system</h2>
 
 <table>
     <tr>
@@ -13,8 +13,10 @@
         <th>Name/Link</th>
     </tr>
     <tr th:each="surveyDto: ${surveyDtoList}">
-        <td th:text="${surveyDto.id}"></td>
-        <td><a th:href="@{/survey/view/{surveyId}(surveyId=${surveyDto.id})}" th:text="${surveyDto.name}"></a></td>
+        <div th:if="${surveyDto.open == true}">
+            <td th:text="${surveyDto.id}"></td>
+            <td><a th:href="@{/survey/view/{surveyId}(surveyId=${surveyDto.id})}" th:text="${surveyDto.name}"></a></td>
+        </div>
     </tr>
 </table>
 </body>
