@@ -17,17 +17,78 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 
 <H3>Milestones:</H3>
 
-| MileStone     | Description| 
-| -----------|:-------------:| 
-| 1             | Summary of what we submit for milestone 1| 
-| 2             |      |  
-| 3             |      |  
+<table>
+	<tr>
+		<th>MileStone</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Setup GitHub Repository</li>
+				<li>Added Travis CI Integration</li>
+				<li>Added deployment to Heroku</li>
+				<li>Can create questions</li>
+				<li>Can create surveys</li>
+				<li>Can list surveys</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Add login page for surveyor</li>
+				<li>Answer surveys</li>
+				<li>Convert survey answers to histogram</li>
+				<li>Convert survey answers to pie chart</li>
+				<li>Validate form inputs</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td></td>
+	</tr>
+</table>
 
-<H3>Links</H3>
+<H3>Endpoints:</H3>
+
+<table>
+	<tr>
+		<th>URL</th>
+		<th>Method</th>
+	</tr>
+	<tr>
+		<td>/survey/create</td>
+		<td>
+			<ul>
+				<li>GET</li>
+				<li>POST</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>/survey/view</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>/survey/view/{surveyId}</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+<H3>Links:</H3>
 
 - Heroku: https://project4806.herokuapp.com/
 - TravisCI: https://www.travis-ci.com/github/thomas7carriere/Project4806
-  
-These need to be added to the README:
-- plan for next sprint
-- database schema 
+- Database Schema: [Milestone 1 Schema](https://github.com/thomas7carriere/Project4806/blob/master/Milestone1-Documents/Schema-Milestone1.png?raw=true)
