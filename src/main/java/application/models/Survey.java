@@ -14,9 +14,18 @@ public class Survey {
     @JsonIgnore
     private long id;
 
+    //Not sure if "surveyorUsername" and "open" should be in SurveyDTO as well.
+    //If they are added to SurveyDto, JsonIgnore needs to be removed here, and tests updated
+    @JsonIgnore
+    private String surveyorUsername;
+    @JsonIgnore
+    private boolean open = true;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Question> questions = new ArrayList<>();
 
+    //Surveys need a unique name
+    @Column(unique=true)
     private String name;
 
     /**
@@ -24,6 +33,14 @@ public class Survey {
      */
     public Survey() {
 
+    }
+
+    /**
+     * Constructor that takes the Survey's Name and the Surveyor's username
+     */
+    public Survey(String name, String surveyorUsername) {
+        this.name = name;
+        this.surveyorUsername = surveyorUsername;
     }
 
     /**
@@ -70,6 +87,39 @@ public class Survey {
      */
     public long getId(){
         return this.id;
+    }
+
+    /**
+     * Gets the username of the Surveyor that created the Survey
+     *
+     * @return username of Surveyor
+     */
+    public String getSurveyorUsername() {
+        return surveyorUsername;
+    }
+
+    /**
+     * Sets the username of the Surveyor that created the Survey
+     *
+     * @param surveyorUsername the name of the Surveyor
+     */
+    public void setSurveyorUsername(String surveyorUsername) {
+        this.surveyorUsername = surveyorUsername;
+    }
+
+    /**
+     * @return the status of the Survey (Open = true, Closed = false)
+     */
+    public boolean isOpen() {
+        return open;
+    }
+
+    /**
+     * @param open status of the Survey (Open = true, Closed = false)
+     */
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     /**
