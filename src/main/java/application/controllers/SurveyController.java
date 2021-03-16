@@ -4,14 +4,16 @@ import application.models.*;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class SurveyController{
@@ -45,9 +47,18 @@ public class SurveyController{
      */
     @PostMapping(SURVEY_CREATE)
     @ResponseBody
-    public Survey createSurvey(@RequestBody SurveyDTO surveyDTO){
+    public Survey createSurvey(@RequestBody SurveyDTO surveyDTO, Authentication authentication){
         //Any server side checks on the Request should be done here.
-        Survey survey = new Survey();
+        //Probably check to make sure user is a "SURVEYOR"
+        //check is survey with that name already exists, return 404?
+        Survey s = surveyRepo.findByName(surveyDTO.getName());
+        if(s != null) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "entity already exists!"
+            );
+        }
+
+        Survey survey = new Survey(surveyDTO.getName(), authentication.getName());
         Collection<QuestionDTO> questions = surveyDTO.getQuestions();
 
         for(QuestionDTO question : questions){
@@ -63,11 +74,9 @@ public class SurveyController{
                     break;
             }
         }
-        survey.setName(surveyDTO.getName());
         surveyRepo.save(survey);
         return survey;
     }
-
 
     /**
      * Shows the content of specific survey
@@ -79,7 +88,7 @@ public class SurveyController{
     @GetMapping(SURVEY_VIEW_ID)
     public String viewSurvey(Model model, @PathVariable String surveyId) {
         Survey survey = surveyRepo.findById(Long.parseLong(surveyId));
-        if (survey == null) {
+        if (survey == null || !survey.isOpen()) {
             return "404"; //TODO: implement proper error pages
         } else {
             SurveyDTO surveyDTO = new SurveyDTO(survey);

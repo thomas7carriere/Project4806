@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -58,6 +59,7 @@ public class TestSurveyController
         assertThat(surveyController).isNotNull();
     }
 
+    @WithMockUser(username="admin",roles={"SURVEYOR","USER"})
     @Test
     @Order(2)
     public void getCreateSurvey() throws Exception {
@@ -66,6 +68,7 @@ public class TestSurveyController
     }
 
     //Posts a SurveyDTO in the body of the request. Assert that the returned JSON (Survey Object) is correct
+    @WithMockUser(username="admin",roles={"SURVEYOR","USER"})
     @Test
     @Order(3)
     public void postCreateSurvey() throws Exception{
@@ -77,6 +80,7 @@ public class TestSurveyController
         assertThat(actualResponseBody).isEqualToIgnoringWhitespace(objectMapper.writeValueAsString(survey));
     }
 
+    @WithMockUser(username="admin",roles={"SURVEYOR","USER"})
     @Test
     @Order(4)
     public void getViewSurvey() throws Exception{
@@ -86,6 +90,7 @@ public class TestSurveyController
                 .andExpect(model().attribute("surveyDto", hasProperty("questions", hasSize(survey.getQuestions().size()))));
     }
 
+    @WithMockUser(username="admin",roles={"SURVEYOR","USER"})
     @Test
     @Order(5)
     public void getViewSurveyList() throws Exception{
@@ -94,10 +99,19 @@ public class TestSurveyController
                 .andExpect(model().attribute("surveyDtoList", hasSize(1)));
     }
 
+    @WithMockUser(username="admin",roles={"SURVEYOR","USER"})
     @Test
     @Order(6)
     public void createSurveyWithoutContent() throws Exception {
         mockMvc.perform(post("/survey/create")).andExpect(status().isBadRequest());
+    }
+
+
+    @WithMockUser(username="user",roles={"USER"})
+    @Test
+    @Order(6)
+    public void createSurveyWithoutAuthorization() throws Exception {
+        mockMvc.perform(get("/survey/create")).andExpect(status().isForbidden());
     }
 
     //Should probably make this a service somewhere, it's used in the Survey Controller as well
