@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -40,5 +41,30 @@ public class MySurveysController {
         surveys.forEach(e-> surveyDtoList.add(new SurveyDTO(e)));
         model.addAttribute("surveyDtoList", surveyDtoList);
         return "mySurveys";
+    }
+
+    @GetMapping("/mysurveys/edit/{surveyId}")
+    public String editSurvey(Model model, @PathVariable String surveyId){
+        Survey survey = surveyRepo.findById(Long.parseLong(surveyId));
+        if (survey == null || !survey.isOpen()) {
+            return "404";
+        }
+        else {
+            SurveyDTO surveyDTO = new SurveyDTO(survey);
+            model.addAttribute("surveyDto", surveyDTO);
+            return "editSurvey";
+        }
+    }
+    @GetMapping("/mysurveys/results/{surveyId}")
+    public String surveyResults(Model model, @PathVariable String surveyId) {
+        Survey survey = surveyRepo.findById(Long.parseLong(surveyId));
+        if (survey == null || !survey.isOpen()) {
+            return "404";
+        }
+        else {
+            SurveyDTO surveyDTO = new SurveyDTO(survey);
+            model.addAttribute("surveyDto", surveyDTO);
+            return "viewResult";
+        }
     }
  }
