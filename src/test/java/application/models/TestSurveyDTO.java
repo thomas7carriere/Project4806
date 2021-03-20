@@ -17,7 +17,7 @@ public class TestSurveyDTO {
     private static final int TEST_MAX_VAL = 3;
     private static final List<String> TEST_CHOICES = Arrays.asList("red", "yellow", "green");
     private static final long TEST_SURVEY_ID = 1L;
-    private static final long TEST_QUESTION_ID = 5L;
+    private static final long TEST_QUESTION_ID = 0L;
 
     private static final QuestionDTO TEST_QUESTION_DTO_OPEN_ENDED =
             new QuestionDTO(QuestionDTO.OPENENDED, TEST_QUESTION, 0, 0, new ArrayList<>(),TEST_QUESTION_ID);

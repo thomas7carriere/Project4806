@@ -90,7 +90,6 @@ public class QuestionDTO {
                 max == that.max &&
                 Objects.equals(questionType, that.questionType) &&
                 Objects.equals(question, that.question) &&
-                Objects.equals(choices, that.choices) &&
-                Objects.equals(ID, that.ID);
+                Objects.equals(choices, that.choices);
     }
 }
