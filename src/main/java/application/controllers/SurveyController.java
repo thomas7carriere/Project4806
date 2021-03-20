@@ -19,6 +19,7 @@ public class SurveyController{
     private final String SURVEY_CREATE = "/survey/create";
     private final String SURVEY_VIEW_LIST = "/survey/view";
     private final String SURVEY_VIEW_ID = "/survey/view/{surveyId}";
+    private final String SURVEY_ANSWER = "/survey/answer";
 
 
     private SurveyRepository surveyRepo;
@@ -99,41 +100,40 @@ public class SurveyController{
      * @param answerDTO data of the user submitted survey answers
      * @return
      */
-    @PostMapping(SURVEY_VIEW_ID)
-    public String answerSurvey(@RequestBody AnswerDTO answerDTO) {
+    @PostMapping(SURVEY_ANSWER)
+    @ResponseBody
+    public Survey answerSurvey(@RequestBody AnswerDTO answerDTO) {
 
-        Survey survey = surveyRepo.findById(answerDTO.getSurveyID()); //currently not used
+        Survey survey = surveyRepo.findById(answerDTO.getSurveyID());
 
         if (survey == null || !survey.isOpen()) {
-            return "404"; //TODO: implement proper error pages
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Survey is closed or doesn't exist"
+            );
         }
-        ArrayList<String> answers = (ArrayList<String>) answerDTO.getAnswers();
-        ArrayList<Integer> QuestionIds = new ArrayList<>(answerDTO.getQuestionID());
+        //we could also iterate over the list of questions in the Survey, would need to make sure every question is answered though
+        //the upside of going through the map is that un-submitted answers aren't really a problem
+        Map<Long, String> answers = answerDTO.getAnswers();
+        answers.forEach((key, value) -> System.out.println(key + ":" + value));
+        for (Map.Entry<Long, String> entry : answers.entrySet()) {
+            long questionId = entry.getKey();
+            String questionAnswer = entry.getValue();
 
-         for(int i = 0; i < QuestionIds.size(); i++){
-            Question questionR = questionRepo.findById(QuestionIds.get(i));
-            if(questionR.getClass() == MultipleChoiceQuestion.class){
-                MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) questionR;
-                Integer answer = Integer.parseInt(answers.get(i));
-                mcQuestion.addAnswer(answer);
-                questionRepo.save(mcQuestion);
+            Question question = questionRepo.findById(questionId);
+            if(question.getClass() == MultipleChoiceQuestion.class){
+                MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) question;
+                mcQuestion.addAnswer(Integer.parseInt(questionAnswer));
 
-            }else if(questionR.getClass() == RangeQuestion.class){
-                RangeQuestion rangeQuestion = (RangeQuestion) questionR;
-                Integer answer = Integer.parseInt(answers.get(i));
-                rangeQuestion.addAnswer(answer);
-                questionRepo.save(rangeQuestion);
+            }else if(question.getClass() == RangeQuestion.class){
+                RangeQuestion rangeQuestion = (RangeQuestion) question;
+                rangeQuestion.addAnswer(Integer.parseInt(questionAnswer));
             }else {
-                OpenEndedQuestion openQuestion = (OpenEndedQuestion) questionR;
-                String answer = answers.get(i);
-                openQuestion.addAnswer(answer);
-                questionRepo.save(openQuestion);
+                OpenEndedQuestion openQuestion = (OpenEndedQuestion) question;
+                openQuestion.addAnswer(questionAnswer);
             }
-
-            }
-
-        //needs to implement a way to navigate to the list of surveys
-        return "";
+        }
+        surveyRepo.save(survey);
+        return survey;
     }
 
     /***

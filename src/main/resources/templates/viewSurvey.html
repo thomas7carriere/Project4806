@@ -9,7 +9,7 @@
 <body>
 <!-- TODO: put some survey info here? -->
 <!-- TODO: need replace *Stat.count with proper questionDto id-->
-<form action="#" method="post" th:id = "${surveyDto.id}">
+<form action="#" method="post" th:id = "${surveyDto.id}" onsubmit="return answerSurvey(event)">
 <div th:each="questionDto : ${surveyDto.questions}">
     <p th:text="${questionDtoStat.count}+': '+${questionDto.question}"></p><th:block th:switch="${questionDto.questionType}">
         <label th:case="${T(application.models.QuestionDTO).OPENENDED}">
@@ -32,8 +32,7 @@
     </th:block>
     <hr>
 </div>
-    <!-- TODO: this does do anything at this moment -->
-<input type="submit" value="Submit answers" onclick=answerSurvey()>
+<input type="submit" value="Submit answers">
 </form>
 </body>
 </html>

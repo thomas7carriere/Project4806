@@ -1,13 +1,10 @@
-
-
 /**
  * answerDTO representation used to store answers
  * @type JSON object
  */
 var answerDTO = {
     "surveyID" : 0,
-    "questionID" : [],
-    "answers" : [],
+    "answers" : {}
 };
 
 /**
@@ -15,34 +12,27 @@ var answerDTO = {
  * Ajax is used to transfer the completed answerDTO to the Post mapping of the selected survey
  */
 
-function answerSurvey(){
+function answerSurvey(e){
+    e.preventDefault();
 
     let surveyID = $('form').attr('id')
     answerDTO['surveyID'] = surveyID
 
     $("form").each(function(){
-        var input = $(this).find(':input').serialize();
-        var inplutSplit = input.split("&")
-        console.log(inplutSplit)
-
-        //traverses the array and splits the question and the answer to store in the answerDTO
-        for(let i = 0; i <inplutSplit.length ; i++ ){
-            tempIdAnswer = inplutSplit[i].split("=")
-            answerDTO['questionID'][i] = tempIdAnswer[0]
-            answerDTO['answers'][i] = tempIdAnswer[1]
-        }
+        var input = objectifyForm($(this).find(':input').serializeArray());
+        answerDTO["answers"] = input;
+        console.log(JSON.stringify(answerDTO));
     });
 
-    console.log(JSON.stringify(answerDTO))
-
     $.ajax({
-        url: "/survey/view/" + surveyID,
+        url: "/survey/answer",
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(answerDTO),
         dataType: 'json',
         success: (data) => {
-            alert("successfully");
+            alert("Answers successfully submitted");
+            window.location.href = "/survey/view";
         },
         fail: (data) =>{
             alert("Failed");
@@ -51,3 +41,15 @@ function answerSurvey(){
     return false;
 }
 
+/**
+ * Takes form data after being serializeArray() call. Creates the desired name, value pairs.
+ * @param formArray
+ * @returns returnArray
+ */
+function objectifyForm(formArray) {
+    let returnArray = {};
+    for (let i = 0; i < formArray.length; i++){
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+    }
+    return returnArray;
+}
