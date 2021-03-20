@@ -11,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class SurveyController{
@@ -95,6 +93,47 @@ public class SurveyController{
             model.addAttribute("surveyDto", surveyDTO);
             return "viewSurvey";
         }
+    }
+    /**
+     * Saves the respective answers to the question from the AnswerDTO that is provided
+     * @param answerDTO data of the user submitted survey answers
+     * @return
+     */
+    @PostMapping(SURVEY_VIEW_ID)
+    public String answerSurvey(@RequestBody AnswerDTO answerDTO) {
+
+        Survey survey = surveyRepo.findById(answerDTO.getSurveyID()); //currently not used
+
+        if (survey == null || !survey.isOpen()) {
+            return "404"; //TODO: implement proper error pages
+        }
+        ArrayList<String> answers = (ArrayList<String>) answerDTO.getAnswers();
+        ArrayList<Integer> QuestionIds = new ArrayList<>(answerDTO.getQuestionID());
+
+         for(int i = 0; i < QuestionIds.size(); i++){
+            Question questionR = questionRepo.findById(QuestionIds.get(i));
+            if(questionR.getClass() == MultipleChoiceQuestion.class){
+                MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) questionR;
+                Integer answer = Integer.parseInt(answers.get(i));
+                mcQuestion.addAnswer(answer);
+                questionRepo.save(mcQuestion);
+
+            }else if(questionR.getClass() == RangeQuestion.class){
+                RangeQuestion rangeQuestion = (RangeQuestion) questionR;
+                Integer answer = Integer.parseInt(answers.get(i));
+                rangeQuestion.addAnswer(answer);
+                questionRepo.save(rangeQuestion);
+            }else {
+                OpenEndedQuestion openQuestion = (OpenEndedQuestion) questionR;
+                String answer = answers.get(i);
+                openQuestion.addAnswer(answer);
+                questionRepo.save(openQuestion);
+            }
+
+            }
+
+        //needs to implement a way to navigate to the list of surveys
+        return "";
     }
 
     /***

@@ -68,7 +68,7 @@ public class OpenEndedQuestion extends Question{
 
     @Override
     public QuestionDTO toDto() {
-        return new QuestionDTO(QuestionDTO.OPENENDED, this.getQuestion(), 0, 0, new ArrayList<>());
+        return new QuestionDTO(QuestionDTO.OPENENDED, this.getQuestion(), 0, 0, new ArrayList<>(),super.getId());
     }
 
 }

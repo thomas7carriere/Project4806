@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${surveyDto.name}"></title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/scripts/answerSurvey.js"></script>
 </head>
 <body>
 <!-- TODO: put some survey info here? -->
 <!-- TODO: need replace *Stat.count with proper questionDto id-->
-<form action="#" method="post">
+<form action="#" method="post" th:id = "${surveyDto.id}">
 <div th:each="questionDto : ${surveyDto.questions}">
     <p th:text="${questionDtoStat.count}+': '+${questionDto.question}"></p><th:block th:switch="${questionDto.questionType}">
         <label th:case="${T(application.models.QuestionDTO).OPENENDED}">
-            <textarea th:id="'q'+${questionDtoStat.count}" rows="10" cols="30"></textarea>
+            <textarea th:id="'q'+${questionDtoStat.count}" rows="10" cols="30" th:name="${questionDto.ID}"></textarea >
         </label>
         <label th:case="${T(application.models.QuestionDTO).RANGE}">
-            <input type="range" th:id="'q'+${questionDtoStat.count}" th:min="${questionDto.min}" th:max="${questionDto.max}"
+            <input type="range" th:id="'q'+${questionDtoStat.count}" th:min="${questionDto.min}" th:max="${questionDto.max}" th:name="${questionDto.ID}"
                    oninput="this.nextElementSibling.value = this.value"/>
             <output th:text="${questionDto.min}">0</output>
         </label>
         <th:block th:case="${T(application.models.QuestionDTO).MULTIPLECHOICE}">
             <label th:each="choice : ${questionDto.choices}">
-                <input type="radio" th:name="'q'+${questionDtoStat.count}"
+                <input type="radio" th:name="${questionDto.ID}"
                            th:id="'q'+${questionDtoStat.count}+'c'+${choiceStat.count}"
-                           th:value="'q'+${questionDtoStat.count}+'c'+${choiceStat.count}"/>
+                           th:value="${choiceStat.count}"/>
                 <label th:text="${choice}"></label>
                 <br>
             </label>
@@ -31,7 +33,7 @@
     <hr>
 </div>
     <!-- TODO: this does do anything at this moment -->
-<input type="submit" value="Submit answers">
+<input type="submit" value="Submit answers" onclick=answerSurvey()>
 </form>
 </body>
 </html>

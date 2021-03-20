@@ -18,17 +18,27 @@ public class QuestionDTO {
     private int max;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Collection<String> choices;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private Long ID;
 
     public static final String OPENENDED = "openEnded", RANGE = "range", MULTIPLECHOICE = "multipleChoice";
 
     public QuestionDTO(){}
 
-    public QuestionDTO(String questionType, String question, int min, int max, Collection<String> choices) {
+    public QuestionDTO(String questionType, String question, int min, int max, Collection<String> choices, Long id) {
         this.questionType = questionType;
         this.question = question;
         this.min = min;
         this.max = max;
         this.choices = choices;
+        this.ID =id;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+    public Long getID() {
+        return ID;
     }
 
     public String getQuestionType() { return questionType; }
@@ -80,6 +90,7 @@ public class QuestionDTO {
                 max == that.max &&
                 Objects.equals(questionType, that.questionType) &&
                 Objects.equals(question, that.question) &&
-                Objects.equals(choices, that.choices);
+                Objects.equals(choices, that.choices) &&
+                Objects.equals(ID, that.ID);
     }
 }
