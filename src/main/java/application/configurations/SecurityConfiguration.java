@@ -45,6 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mysurveys").hasRole(("SURVEYOR"))
                 .antMatchers("/cheat").hasRole("SURVEYOR")
                 .antMatchers("/survey/view/**").hasAnyRole("SURVEYOR", "USER")
+                .antMatchers("/survey/help/**").hasAnyRole("SURVEYOR", "USER")
                 .antMatchers("/").hasAnyRole("SURVEYOR", "USER")
                 .and().formLogin().permitAll().and()
                 .csrf().disable();

@@ -21,6 +21,7 @@ public class SurveyController{
     private final String SURVEY_CREATE = "/survey/create";
     private final String SURVEY_VIEW_LIST = "/survey/view";
     private final String SURVEY_VIEW_ID = "/survey/view/{surveyId}";
+    private final String HELP_PAGE = "/survey/help";
 
 
     private SurveyRepository surveyRepo;
@@ -111,5 +112,14 @@ public class SurveyController{
 
         model.addAttribute("surveyDtoList", surveyDtoList);
         return "viewSurveyList";
+    }
+
+    /**
+     * @return the view template "helpPage.html"
+     */
+    @GetMapping(HELP_PAGE)
+    public String getHelpPage(){
+
+        return "helpPage";
     }
 }
