@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,6 +39,7 @@ public class TestSurveyController
     private QuestionDTO q1, q2, q3;
     private SurveyDTO surveyDTO;
     private Survey survey;
+    private AnswerDTO answerDTO;
 
     @InjectMocks
     private SurveyController surveyController;
@@ -51,6 +53,12 @@ public class TestSurveyController
         Collection<QuestionDTO> questions = new ArrayList<>();questions.add(q1);questions.add(q2);questions.add(q3);
         surveyDTO = new SurveyDTO("Survey Name", questions);
         survey = dtoToSurvey(surveyDTO);
+
+        HashMap<Long,String> questionAnswers= new HashMap<>();
+        questionAnswers.put(1L,"OpenEnded Answer");
+        questionAnswers.put(2L,"4");
+        questionAnswers.put(3L,"1");
+        answerDTO = new AnswerDTO(1,questionAnswers);
     }
 
     @Test
@@ -134,5 +142,15 @@ public class TestSurveyController
             }
         }
         return survey;
+    }
+
+    //Tests answerSurvey Controller with a json representation of a AnswerDTO object
+    @WithMockUser(username = "admin", roles = {"SURVEYOR", "USER"})
+    @Test
+    @Order(7)
+    public void answerSurvey() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(post("/survey/answer").content(objectMapper.writeValueAsString(answerDTO)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
