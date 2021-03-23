@@ -1,6 +1,5 @@
 package application.models;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -10,6 +9,9 @@ public class AnswerDTO {
 
     private long surveyID;
     private HashMap<Long, String> answers;
+
+    public AnswerDTO() {
+    }
 
     public AnswerDTO(long surveyID, HashMap<Long, String> answers) {
         this.surveyID = surveyID;
