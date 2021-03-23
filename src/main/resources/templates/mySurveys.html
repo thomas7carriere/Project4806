@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="/scripts/mySurveys.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Mini-survey monkey</title>
 </head>
 <body>
 <h2>List of my Surveys</h2>
-
 <div>
-    <select id="surveyDropDown">
-        <option th:each="survey : ${surveyDtoList}" th:value="${survey.name}" th:text="${survey.name}"></option>
+    <select id = "surveyDropDown">
+        <option th:each="survey : ${surveyDtoList}"
+                th:value="${survey.id}"
+                th:text="${survey.name}+'-'+(${survey.isOpen} ? 'Open' : 'Closed')"></option>
     </select>
 </div>
 <div><br>
-    <button>Edit Survey</button>
-    <button>Close Survey</button>
-    <button>View Survey Results</button>
+    <button onclick="editButton()">Edit Survey</button>
+    <button onclick="closeSurvey()">Close Survey</button>
+    <button onclick="viewResults()">View Survey Results</button>
     <button>Delete Survey</button>
 </div>
 </body>

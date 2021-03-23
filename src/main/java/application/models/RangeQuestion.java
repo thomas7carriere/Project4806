@@ -3,9 +3,7 @@ package application.models;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * This is the subclass of Question class.
@@ -20,7 +18,7 @@ public class RangeQuestion extends Question
     protected int min;
     protected int max;
     @ElementCollection
-    private Collection<Integer> answer = new LinkedList<>();
+    private List<Integer> answer = new LinkedList<>();
 
     /**
      * Default constructor
@@ -83,7 +81,7 @@ public class RangeQuestion extends Question
      *
      * @param answer is an array list of integers
      */
-    public void setAnswer(Collection<Integer> answer){
+    public void setAnswer(List<Integer> answer){
         this.answer = answer;
     }
 
@@ -92,7 +90,7 @@ public class RangeQuestion extends Question
      *
      * @return an ArrayList of integers
      */
-    public Collection<Integer> getAnswer(){
+    public List<Integer> getAnswer(){
         return answer;
     }
 
@@ -111,4 +109,13 @@ public class RangeQuestion extends Question
         return new QuestionDTO(QuestionDTO.RANGE, this.getQuestion(), this.min, this.max, new ArrayList<>());
     }
 
+    @Override
+    public ResultDTO populateResultDTO() {
+        ResultDTO resultDTO = new ResultDTO(getQuestion(), QuestionDTO.RANGE);
+        List<List<Object>> list = new ArrayList<>();
+        answer.forEach(e-> list.add(Arrays.asList("",e)));
+        resultDTO.setChartData(list);
+
+        return resultDTO;
+    }
 }

@@ -3,6 +3,8 @@ package application.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity(name="questions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -43,4 +45,12 @@ abstract public class Question {
      * @return DTO object to be passed to the view
      */
     abstract public QuestionDTO toDto();
+
+    /**
+     * Return the result DTO of the answers stored in this question
+     *
+     * @return result DTO to be used in view result page
+     */
+    abstract public ResultDTO populateResultDTO();
+
 }

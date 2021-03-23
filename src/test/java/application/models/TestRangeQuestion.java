@@ -59,4 +59,21 @@ public class TestRangeQuestion {
         assertTrue(q1.getAnswer().contains(32));
         assertEquals(2, q1.getAnswer().size());
     }
+
+    @Test
+    public void TestToQuestionDTO() {
+        QuestionDTO dto = q1.toDto();
+        assertEquals(q1.getQuestion(), dto.getQuestion());
+        assertEquals(QuestionDTO.RANGE, dto.getQuestionType());
+        //assertEquals(q1.getId(), dto.getID()); //TODO: uncomment after implementation
+    }
+
+    @Test
+    public void TestPopulateResultDTO() {
+        q1.addAnswer(1);
+        ResultDTO dto = q1.populateResultDTO();
+        assertEquals(q1.getQuestion(), dto.getQuestion());
+        assertEquals(QuestionDTO.RANGE, dto.getQuestionType());
+        assertEquals(1, dto.getChartData().size());
+    }
 }
