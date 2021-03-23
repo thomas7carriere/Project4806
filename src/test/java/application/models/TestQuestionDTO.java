@@ -16,6 +16,7 @@ public class TestQuestionDTO {
     private static final int TEST_MIN_VAL = 0;
     private static final int TEST_MAX_VAL = 3;
     private static final List<String> TEST_CHOICES = Arrays.asList("red", "yellow", "green");
+    private static final long TEST_QUESTION_ID = 5L;
 
     @Before
     public void setUp() {
@@ -25,13 +26,14 @@ public class TestQuestionDTO {
     @Test
     public void constructorTest() {
         questionDTO = new QuestionDTO(QuestionDTO.OPENENDED,
-                TEST_QUESTION, TEST_MIN_VAL, TEST_MAX_VAL, TEST_CHOICES);
+                TEST_QUESTION, TEST_MIN_VAL, TEST_MAX_VAL, TEST_CHOICES,TEST_QUESTION_ID);
 
         assertEquals(QuestionDTO.OPENENDED, questionDTO.getQuestionType());
         assertEquals(TEST_QUESTION, questionDTO.getQuestion());
         assertEquals(TEST_MIN_VAL, questionDTO.getMin());
         assertEquals(TEST_MAX_VAL, questionDTO.getMax());
         assertEquals(TEST_CHOICES, questionDTO.getChoices());
+        assertEquals(TEST_QUESTION_ID, (long) questionDTO.getID());
     }
 
     @Test
@@ -69,11 +71,16 @@ public class TestQuestionDTO {
         questionDTO.setChoices(TEST_CHOICES);
         assertEquals(TEST_CHOICES, questionDTO.getChoices());
     }
+    @Test
+    public void setAndGetID() {
+        questionDTO.setID(TEST_QUESTION_ID);
+        assertEquals(TEST_QUESTION_ID, (long) questionDTO.getID());
+    }
 
     @Test
     public void testToString() {
         questionDTO = new QuestionDTO(QuestionDTO.OPENENDED,
-                TEST_QUESTION, TEST_MIN_VAL, TEST_MAX_VAL, TEST_CHOICES);
+                TEST_QUESTION, TEST_MIN_VAL, TEST_MAX_VAL, TEST_CHOICES,TEST_QUESTION_ID);
 
         String expectedText = "QuestionType: "
                 + QuestionDTO.OPENENDED + " Question: " + TEST_QUESTION;
