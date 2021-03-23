@@ -138,7 +138,7 @@ public class MultipleChoiceQuestion extends Question{
 
     @Override
     public QuestionDTO toDto() {
-        return new QuestionDTO(QuestionDTO.MULTIPLECHOICE, this.getQuestion(), 0, 0, this.choices);
+        return new QuestionDTO(QuestionDTO.MULTIPLECHOICE, this.getQuestion(), 0, 0, this.choices,super.getId());
     }
 
     @Override
