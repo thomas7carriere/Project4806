@@ -47,8 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mysurveys/edit/**").hasAnyRole("SURVEYOR")
                 .antMatchers("/mysurveys/view/**").hasAnyRole("SURVEYOR")
                 .antMatchers("/survey/view/**").hasAnyRole("SURVEYOR", "USER")
+                .antMatchers("/survey/delete/**").hasAnyRole("SURVEYOR")
                 .antMatchers("/").hasAnyRole("SURVEYOR", "USER")
+                .antMatchers("/h2-console/**").permitAll() //Allow access to h2-console
                 .and().formLogin().permitAll().and()
                 .csrf().disable();
+                http.headers().frameOptions().disable(); //Needs to be disabled for h2-console
     }
 }
