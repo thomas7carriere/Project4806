@@ -38,12 +38,26 @@ class DevToolController {
     @ResponseBody
     private String getSurveyPage(Authentication authentication) {
         Survey survey = new Survey("DummyTestSurvey" + surveyCount++, authentication.getName());
-        survey.addQuestion(new RangeQuestion("Pick a number from range", 10, 100));
-        survey.addQuestion(new MultipleChoiceQuestion("Pick an animal", Arrays.asList("dog", "cat", "hamster")));
-        survey.addQuestion(new OpenEndedQuestion("Enter some random stuff"));
+        RangeQuestion r = new RangeQuestion("Pick a number from range", 10, 100);
+        r.addAnswer(10);
+        r.addAnswer(11);
+        r.addAnswer(100);
+        r.addAnswer(100);
+        MultipleChoiceQuestion m = new MultipleChoiceQuestion("Pick an animal", Arrays.asList("dog", "cat", "hamster"));
+        m.addAnswer(1);m.addAnswer(2);m.addAnswer(2);m.addAnswer(3);
+        OpenEndedQuestion o = new OpenEndedQuestion("Enter some random stuff");
+        o.addAnswer("hello");
+        o.addAnswer("olleh");
+        o.addAnswer("hello");
+        survey.addQuestion(r);
+        survey.addQuestion(m);
+        survey.addQuestion(o);
         survey.addQuestion(new RangeQuestion("Another range question", 25, 75));
-        survey.addQuestion(new MultipleChoiceQuestion("Another multiple choice question",
-                Arrays.asList("red", "blue", "yellow")));
+
+        m = new MultipleChoiceQuestion("Pick an fruit", Arrays.asList("orange", "apple", "each"));
+        m.addAnswer(1);m.addAnswer(2);m.addAnswer(3);
+        survey.addQuestion(m);
+
         survey.addQuestion(new OpenEndedQuestion("another textbox"));
         //every 2nd survey will be set to closed for testing
         if(surveyCount % 2 == 0) {

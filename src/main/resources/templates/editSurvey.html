@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Edit Survey Page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/scripts/editSurvey.js"></script>
 </head>
 <body>
+<div th:each = "questionDto : ${surveyDto.questions}">
+    <p th:text = "${questionDtoStat.count}+': '+${questionDto.question}"></p>
+</div>
 
 
 </body>

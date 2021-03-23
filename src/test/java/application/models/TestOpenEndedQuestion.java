@@ -3,8 +3,8 @@ package application.models;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -29,7 +29,7 @@ public class TestOpenEndedQuestion {
 
     @Test
     public void TestSetThenGetAnswer() {
-        Collection<String> answer = new HashSet<>();
+        List<String> answer = new ArrayList<>();
         answer.add(ANSWER1);
         answer.add(ANSWER2);
         answer.add("random answer");

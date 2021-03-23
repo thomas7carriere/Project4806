@@ -12,12 +12,12 @@
     <select id = "surveyDropDown">
         <option th:each="survey : ${surveyDtoList}"
                 th:value="${survey.id}"
-                th:text="${survey.name}"></option>
+                th:text="${survey.name}+'-'+(${survey.isOpen} ? 'Open' : 'Closed')"></option>
     </select>
 </div>
 <div><br>
     <button onclick="editButton()">Edit Survey</button>
-    <button>Close Survey</button>
+    <button onclick="closeSurvey()">Close Survey</button>
     <button onclick="viewResults()">View Survey Results</button>
     <button>Delete Survey</button>
 </div>
