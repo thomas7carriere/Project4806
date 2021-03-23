@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A subclass of the base Question class
@@ -20,7 +21,7 @@ public class OpenEndedQuestion extends Question{
      * All the answers provided by user to this question
      */
     @ElementCollection
-    private Collection<String> answer = new LinkedList<>();
+    private List<String> answer = new LinkedList<>();
 
     /**
      * Default constructor required by JPA
@@ -52,7 +53,7 @@ public class OpenEndedQuestion extends Question{
      *
      * @param answer collection used to replaced existing answer
      */
-    public void setAnswer(Collection<String> answer) {
+    public void setAnswer(List<String> answer) {
         this.answer = answer;
     }
 
@@ -69,6 +70,14 @@ public class OpenEndedQuestion extends Question{
     @Override
     public QuestionDTO toDto() {
         return new QuestionDTO(QuestionDTO.OPENENDED, this.getQuestion(), 0, 0, new ArrayList<>());
+    }
+
+    @Override
+    public ResultDTO populateResultDTO() {
+        ResultDTO resultDTO = new ResultDTO(getQuestion(), QuestionDTO.OPENENDED);
+        resultDTO.setStringAnswers(new ArrayList<>(this.getAnswer()));
+
+        return resultDTO;
     }
 
 }

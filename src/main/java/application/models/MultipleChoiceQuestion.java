@@ -3,9 +3,9 @@ package application.models;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * Subclass of Question class
  * Create a multiple choice question
@@ -139,5 +139,15 @@ public class MultipleChoiceQuestion extends Question{
     @Override
     public QuestionDTO toDto() {
         return new QuestionDTO(QuestionDTO.MULTIPLECHOICE, this.getQuestion(), 0, 0, this.choices);
+    }
+
+    @Override
+    public ResultDTO populateResultDTO() {
+        ResultDTO resultDTO = new ResultDTO(getQuestion(), QuestionDTO.MULTIPLECHOICE);
+        List<List<Object>> list = new ArrayList<>();
+        answersValues.forEach((k,v)-> list.add(Arrays.asList(choicesID.get(k), v)));
+        resultDTO.setChartData(list);
+
+        return resultDTO;
     }
 }
