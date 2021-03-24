@@ -1,13 +1,13 @@
 package application.models;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +21,7 @@ public class TestResultDTO {
 
     private ResultDTO resultDTO;
 
-    @Before
+    @BeforeEach
     public void setup(){
         resultDTO = new ResultDTO(question, questionType);
     }

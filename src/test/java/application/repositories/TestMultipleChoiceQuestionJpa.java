@@ -2,11 +2,9 @@ package application.repositories;
 
 import application.models.MultipleChoiceQuestion;
 import application.models.Question;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -14,10 +12,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @DataJpaTest
 public class TestMultipleChoiceQuestionJpa {
@@ -31,7 +28,7 @@ public class TestMultipleChoiceQuestionJpa {
     private static final String CHOICETHREE = "More than Two";
     private static final Collection<String> choices = new ArrayList<String>();
 
-    @Before
+    @BeforeEach
     public void setUp(){
         choices.add(CHOICEONE);
         choices.add(CHOICETWO);

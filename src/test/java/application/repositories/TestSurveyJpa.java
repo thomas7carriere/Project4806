@@ -3,21 +3,17 @@ package application.repositories;
 import application.models.MultipleChoiceQuestion;
 import application.models.Question;
 import application.models.Survey;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @DataJpaTest
 public class TestSurveyJpa {
@@ -28,7 +24,7 @@ public class TestSurveyJpa {
     private Survey survey;
     private List<Question> questions;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         questions = new ArrayList<>();
         survey = new Survey("Jpa Test",questions);

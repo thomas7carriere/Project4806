@@ -2,20 +2,17 @@ package application.repositories;
 
 import application.models.Question;
 import application.models.RangeQuestion;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+
 @Transactional
 @DataJpaTest
 public class TestRangeQuestionsJpa {
@@ -27,7 +24,7 @@ public class TestRangeQuestionsJpa {
     private RangeQuestion q2;
 
 
-    @Before
+    @BeforeEach
     public void setUp(){
         q1 = new RangeQuestion("How old are you?", 0, 117);
         q2 = new RangeQuestion();
