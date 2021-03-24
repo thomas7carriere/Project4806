@@ -1,12 +1,12 @@
 package application.models;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestOpenEndedQuestion {
 
@@ -15,7 +15,7 @@ public class TestOpenEndedQuestion {
     private static final String ANSWER1 = "No I HATE dogs";
     private static final String ANSWER2 = "Yes I like dogs";
 
-    @Before
+    @BeforeEach
     public void setUp() {
         q = new OpenEndedQuestion(QUESTION);
     }
