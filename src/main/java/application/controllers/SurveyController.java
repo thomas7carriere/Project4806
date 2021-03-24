@@ -21,6 +21,7 @@ public class SurveyController{
     private final String SURVEY_VIEW_ID = "/survey/view/{surveyId}";
     private final String SURVEY_DELETE_ID = "/survey/delete/{surveyId}";
     private final String SURVEY_ANSWER = "/survey/answer";
+    private final String HELP_PAGE = "/survey/help";
 
 
     private SurveyRepository surveyRepo;
@@ -162,5 +163,14 @@ public class SurveyController{
         } else {
             surveyRepo.deleteById(surveyId);
         }
+    }
+
+    /**
+     * @return the view template "helpPage.html"
+     */
+    @GetMapping(HELP_PAGE)
+    public String getHelpPage(){
+
+        return "helpPage";
     }
 }
