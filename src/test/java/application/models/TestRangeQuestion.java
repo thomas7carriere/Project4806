@@ -1,10 +1,13 @@
 package application.models;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestRangeQuestion {
 
     private RangeQuestion q1;
@@ -13,7 +16,7 @@ public class TestRangeQuestion {
     ArrayList<Integer> answer1 = new ArrayList<>(Arrays.asList(21, 23, 33));
     ArrayList<Integer> answer2 = new ArrayList<>(Arrays.asList(10, 10, 10));
 
-    @Before
+    @BeforeEach
     public void setup(){
 
         q1 = new RangeQuestion("How old are you?", 0, 117); //Fun fact: The oldest person alive today is 117 in Japan;)
@@ -58,5 +61,22 @@ public class TestRangeQuestion {
         assertTrue(q1.addAnswer(5));
         assertTrue(q1.getAnswer().contains(32));
         assertEquals(2, q1.getAnswer().size());
+    }
+
+    @Test
+    public void TestToQuestionDTO() {
+        QuestionDTO dto = q1.toDto();
+        assertEquals(q1.getQuestion(), dto.getQuestion());
+        assertEquals(QuestionDTO.RANGE, dto.getQuestionType());
+        //assertEquals(q1.getId(), dto.getID()); //TODO: uncomment after implementation
+    }
+
+    @Test
+    public void TestPopulateResultDTO() {
+        q1.addAnswer(1);
+        ResultDTO dto = q1.populateResultDTO();
+        assertEquals(q1.getQuestion(), dto.getQuestion());
+        assertEquals(QuestionDTO.RANGE, dto.getQuestionType());
+        assertEquals(1, dto.getChartData().size());
     }
 }

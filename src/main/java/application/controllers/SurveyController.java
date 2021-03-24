@@ -11,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class SurveyController{
@@ -21,7 +19,8 @@ public class SurveyController{
     private final String SURVEY_CREATE = "/survey/create";
     private final String SURVEY_VIEW_LIST = "/survey/view";
     private final String SURVEY_VIEW_ID = "/survey/view/{surveyId}";
-    private final String HELP_PAGE = "/survey/help";
+    private final String SURVEY_DELETE_ID = "/survey/delete/{surveyId}";
+    private final String SURVEY_ANSWER = "/survey/answer";
 
 
     private SurveyRepository surveyRepo;
@@ -97,6 +96,46 @@ public class SurveyController{
             return "viewSurvey";
         }
     }
+    /**
+     * Saves the respective answers to the question from the AnswerDTO that is provided
+     * @param answerDTO data of the user submitted survey answers
+     * @return
+     */
+    @PostMapping(SURVEY_ANSWER)
+    @ResponseBody
+    public Survey answerSurvey(@RequestBody AnswerDTO answerDTO) {
+
+        Survey survey = surveyRepo.findById(answerDTO.getSurveyID());
+
+        if (survey == null || !survey.isOpen()) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Survey is closed or doesn't exist"
+            );
+        }
+        //we could also iterate over the list of questions in the Survey, would need to make sure every question is answered though
+        //the upside of going through the map is that un-submitted answers aren't really a problem
+        Map<Long, String> answers = answerDTO.getAnswers();
+        answers.forEach((key, value) -> System.out.println(key + ":" + value));
+        for (Map.Entry<Long, String> entry : answers.entrySet()) {
+            long questionId = entry.getKey();
+            String questionAnswer = entry.getValue();
+
+            Question question = questionRepo.findById(questionId);
+            if(question.getClass() == MultipleChoiceQuestion.class){
+                MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) question;
+                mcQuestion.addAnswer(Integer.parseInt(questionAnswer));
+
+            }else if(question.getClass() == RangeQuestion.class){
+                RangeQuestion rangeQuestion = (RangeQuestion) question;
+                rangeQuestion.addAnswer(Integer.parseInt(questionAnswer));
+            }else {
+                OpenEndedQuestion openQuestion = (OpenEndedQuestion) question;
+                openQuestion.addAnswer(questionAnswer);
+            }
+        }
+        surveyRepo.save(survey);
+        return survey;
+    }
 
     /***
      * Shows all surveys in the system
@@ -114,12 +153,14 @@ public class SurveyController{
         return "viewSurveyList";
     }
 
-    /**
-     * @return the view template "helpPage.html"
-     */
-    @GetMapping(HELP_PAGE)
-    public String getHelpPage(){
-
-        return "helpPage";
+    @DeleteMapping(SURVEY_DELETE_ID)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteSurvey(@PathVariable Long surveyId){
+        Survey survey = surveyRepo.findById(surveyId).orElse(null);
+        if(survey == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+        } else {
+            surveyRepo.deleteById(surveyId);
+        }
     }
 }

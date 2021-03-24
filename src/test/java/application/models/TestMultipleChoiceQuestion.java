@@ -1,14 +1,14 @@
 package application.models;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TestMultipleChoiceQuestion {
 
@@ -24,7 +24,7 @@ public class TestMultipleChoiceQuestion {
     /**
      * Sets up initial conditions for tests
      */
-    @Before
+    @BeforeEach
     public void setUp(){
         choices.clear();
         mcQuestion = new MultipleChoiceQuestion(QUESTION,choices);
@@ -112,4 +112,21 @@ public class TestMultipleChoiceQuestion {
 
     }
 
+    @Test
+    public void TestToQuestionDTO() {
+        QuestionDTO dto = mcQuestion.toDto();
+        assertEquals(mcQuestion.getQuestion(), dto.getQuestion());
+        assertEquals(QuestionDTO.MULTIPLECHOICE, dto.getQuestionType());
+        //assertEquals(mcQuestion.getId(), dto.getID()); //TODO: uncomment after implementation
+    }
+
+    @Test
+    public void TestPopulateResultDTO() {
+        mcQuestion.addChoice(CHOICEONE);
+        mcQuestion.addAnswer(1);
+        ResultDTO dto = mcQuestion.populateResultDTO();
+        assertEquals(mcQuestion.getQuestion(), dto.getQuestion());
+        assertEquals(QuestionDTO.MULTIPLECHOICE, dto.getQuestionType());
+        assertEquals(1, dto.getChartData().size());
+    }
 }
