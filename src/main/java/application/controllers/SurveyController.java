@@ -19,6 +19,7 @@ public class SurveyController{
     private final String SURVEY_CREATE = "/survey/create";
     private final String SURVEY_VIEW_LIST = "/survey/view";
     private final String SURVEY_VIEW_ID = "/survey/view/{surveyId}";
+    private final String SURVEY_DELETE_ID = "/survey/delete/{surveyId}";
     private final String SURVEY_ANSWER = "/survey/answer";
 
 
@@ -150,5 +151,16 @@ public class SurveyController{
 
         model.addAttribute("surveyDtoList", surveyDtoList);
         return "viewSurveyList";
+    }
+
+    @DeleteMapping(SURVEY_DELETE_ID)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteSurvey(@PathVariable Long surveyId){
+        Survey survey = surveyRepo.findById(surveyId).orElse(null);
+        if(survey == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+        } else {
+            surveyRepo.deleteById(surveyId);
+        }
     }
 }
