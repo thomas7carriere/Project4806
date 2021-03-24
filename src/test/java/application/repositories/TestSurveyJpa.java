@@ -46,4 +46,19 @@ public class TestSurveyJpa {
         assertEquals(surveyFromRepo, survey);
         assertEquals(survey.getQuestions(), surveyFromRepo.getQuestions());
     }
+
+    @Test
+    public void TestDeletingSurvey(){
+        //Save Survey
+        survey.addQuestion(question);
+        sRepo.save(survey);
+        Survey surveyFromRepo = sRepo.findById(survey.getId());
+        assertEquals(surveyFromRepo, survey);
+        assertEquals(survey.getQuestions(), surveyFromRepo.getQuestions());
+
+        //Delete Survey
+        sRepo.deleteById(survey.getId());
+        surveyFromRepo = sRepo.findById(survey.getId());
+        assertNull(surveyFromRepo);
+    }
 }

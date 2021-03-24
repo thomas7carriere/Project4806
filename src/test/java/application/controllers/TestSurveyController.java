@@ -18,11 +18,13 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -43,6 +45,7 @@ public class TestSurveyController
 
     @InjectMocks
     private SurveyController surveyController;
+    private Collection<QuestionDTO> questions;
 
     @Before
     public void setUp()
@@ -50,7 +53,11 @@ public class TestSurveyController
         QuestionDTO q1 = new QuestionDTO();q1.setQuestionType(QuestionDTO.OPENENDED);q1.setQuestion("OpenEnded Question?");q1.setID(1L);
         QuestionDTO q2 = new QuestionDTO();q2.setQuestionType(QuestionDTO.RANGE);q2.setQuestion("Range Question?");q2.setMin(1);q2.setMax(5);q2.setID(2L);
         QuestionDTO q3 = new QuestionDTO();q3.setQuestionType(QuestionDTO.MULTIPLECHOICE);q3.setQuestion("MC Question?");Collection<String> choices = new ArrayList<>();choices.add("Choice1");choices.add("Choice2");choices.add("Choice3");q3.setChoices(choices);q3.setID(3L);
-        Collection<QuestionDTO> questions = new ArrayList<>();questions.add(q1);questions.add(q2);questions.add(q3);
+        questions = new ArrayList<>();
+        questions.add(q1);
+        questions.add(q2);
+        questions.add(q3);
+
         surveyDTO = new SurveyDTO("Survey Name", questions);
         survey = dtoToSurvey(surveyDTO);survey.setId(1L);
 
@@ -120,6 +127,35 @@ public class TestSurveyController
     @Order(6)
     public void createSurveyWithoutAuthorization() throws Exception {
         mockMvc.perform(get("/survey/create")).andExpect(status().isForbidden());
+    }
+
+    @WithMockUser(username="admin",roles={"SURVEYOR"})
+    @Test
+    public void deleteSurveyWithAuthorization() throws Exception {
+        //Add Survey
+        mockMvc.perform(post("/survey/create")
+                .content(new ObjectMapper().writeValueAsString(new SurveyDTO("Survey Name 2", questions)))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+
+
+        //Need to suppress unchecked warning due to type erasure
+        @SuppressWarnings("unchecked")
+        ArrayList<SurveyDTO> surveyDtoList =
+                (ArrayList<SurveyDTO>) Objects.requireNonNull(mockMvc.perform(get("/survey/view"))
+                        .andReturn().getModelAndView()).getModel().get("surveyDtoList");
+
+        //Delete Survey (Should be 204 HttpStatus.NO_CONTENT)
+        mockMvc.perform(delete("/survey/delete/{id}", surveyDtoList.size())).andExpect(status().isNoContent());
+
+        //Delete Survey Again (Should be 404 HttpStatus.NOT_FOUND)
+        mockMvc.perform(delete("/survey/delete/{id}", surveyDtoList.size())).andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(username="user")
+    @Test
+    public void deleteSurveyWithoutAuthorization() throws Exception {
+        mockMvc.perform(delete("/survey/delete/{id}", 1L)).andExpect(status().isForbidden());
     }
 
     //Should probably make this a service somewhere, it's used in the Survey Controller as well
