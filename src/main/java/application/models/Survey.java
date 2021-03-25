@@ -1,12 +1,18 @@
 package application.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Survey {
 
     @Id
@@ -29,13 +35,6 @@ public class Survey {
     private String name;
 
     /**
-     * Default constructor
-     */
-    public Survey() {
-
-    }
-
-    /**
      * Constructor that takes the Survey's Name and the Surveyor's username
      */
     public Survey(String name, String surveyorUsername) {
@@ -55,83 +54,6 @@ public class Survey {
     }
 
     /**
-     * Sets name of survey
-     *
-     * @param name is the new name of the survey
-     */
-    public void setName(String name){
-        this.name = name;
-    }
-
-    /**
-     * Gets the name of the survey
-     *
-     * @return the name of the survey
-     */
-    public String getName(){
-        return this.name;
-    }
-
-    /**
-     * Sets the survey id
-     * @param id is the new id of the survey
-     */
-    public void setId(long id){
-        this.id = id;
-    }
-
-    /**
-     * Gets the id of the survey
-     *
-     * @return the id of the survey
-     */
-    public long getId(){
-        return this.id;
-    }
-
-    /**
-     * Gets the username of the Surveyor that created the Survey
-     *
-     * @return username of Surveyor
-     */
-    public String getSurveyorUsername() {
-        return surveyorUsername;
-    }
-
-    /**
-     * Sets the username of the Surveyor that created the Survey
-     *
-     * @param surveyorUsername the name of the Surveyor
-     */
-    public void setSurveyorUsername(String surveyorUsername) {
-        this.surveyorUsername = surveyorUsername;
-    }
-
-    /**
-     * @return the status of the Survey (Open = true, Closed = false)
-     */
-    public boolean isOpen() {
-        return open;
-    }
-
-    /**
-     * @param open status of the Survey (Open = true, Closed = false)
-     */
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
-    /**
-     * Gets the list of questions in the survey
-     *
-     * @return the list of questions
-     */
-    public List<Question> getQuestions(){
-        return this.questions;
-    }
-
-    /**
      * Adds a question to the surveys List of questions
      *
      * @param q the new question to be added to the survey
@@ -148,14 +70,4 @@ public class Survey {
     public boolean removeQuestion(Question q){
         return this.questions.remove(q);
     }
-
-    /**
-     * Sets the surveys list of questions
-     *
-     * @param questions the list of questions
-     */
-    public void setQuestions(List<Question> questions){
-        this.questions = questions;
-    }
-
 }

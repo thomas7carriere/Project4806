@@ -1,6 +1,9 @@
 package application.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +11,9 @@ import java.util.Collection;
 /**
  * A Data Transfer Object representing a Survey Object
  */
-
+@Getter
+@Setter
+@NoArgsConstructor
 public class SurveyDTO {
 
     private String name;
@@ -16,8 +21,6 @@ public class SurveyDTO {
     private boolean open;
     @JsonIgnore
     private long id;
-
-    public SurveyDTO() {}
 
     public SurveyDTO(Collection<QuestionDTO> questions) {
         this("", questions);
@@ -40,32 +43,4 @@ public class SurveyDTO {
         this.open = survey.isOpen();
         survey.getQuestions().forEach(e->this.questions.add(e.toDto()));
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Collection<QuestionDTO> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(Collection<QuestionDTO> questions) {
-        this.questions = questions;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public boolean isOpen() { return open; }
-
-    public void setOpen(boolean open) { this.open = open; }
 }
