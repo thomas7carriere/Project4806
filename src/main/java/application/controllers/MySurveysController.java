@@ -1,9 +1,6 @@
 package application.controllers;
 
-import application.models.Question;
-import application.models.ResultDTO;
-import application.models.Survey;
-import application.models.SurveyDTO;
+import application.models.*;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MySurveysController {
@@ -56,6 +54,52 @@ public class MySurveysController {
             model.addAttribute("surveyDto", surveyDTO);
             return "editSurvey";
         }
+    }
+
+    @PatchMapping("/mysurveys/edit")
+    @ResponseBody
+    public Survey saveEdit(@RequestBody EditDTO editDTO){
+        Survey survey = surveyRepo.findById(editDTO.getSurveyID());
+        if (survey == null || !survey.isOpen()) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Survey is closed or doesn't exist"
+            );
+        }
+        Survey checkName = surveyRepo.findByName(editDTO.getSurveyName());
+        if(checkName != null && checkName.getId() != editDTO.getSurveyID()){
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Surveys new name is already taken"
+            );
+        }
+        survey.setName(editDTO.getSurveyName());
+        List<Question> originalQs = survey.getQuestions();
+        Map<Long, String> edited = editDTO.getEdited();
+        for (Map.Entry<Long, String> e : edited.entrySet()){
+            for(Question q : originalQs){
+                if(q.getId().equals(e.getKey())){
+                    q.setQuestion(e.getValue());
+                }
+            }
+        }
+        Collection<QuestionDTO> newQuestions = editDTO.getNewQuestions();
+        System.out.println(newQuestions != null);
+        if(newQuestions != null){
+            for(QuestionDTO question: newQuestions){
+                switch(question.getQuestionType()){
+                    case QuestionDTO.OPENENDED:
+                        survey.addQuestion(new OpenEndedQuestion(question.getQuestion()));
+                        break;
+                    case QuestionDTO.RANGE:
+                        survey.addQuestion(new RangeQuestion(question.getQuestion(), question.getMin(), question.getMax()));
+                        break;
+                    case QuestionDTO.MULTIPLECHOICE:
+                        survey.addQuestion(new MultipleChoiceQuestion(question.getQuestion(), question.getChoices()));
+                        break;
+                }
+            }
+        }
+        surveyRepo.save(survey);
+        return survey;
     }
 
     /**
