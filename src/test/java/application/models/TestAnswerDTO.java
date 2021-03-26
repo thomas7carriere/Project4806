@@ -1,11 +1,11 @@
 package application.models;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestAnswerDTO {
     
@@ -20,7 +20,7 @@ public class TestAnswerDTO {
     private static final String QUESTION_Answer_3 = "53";
 
 
-    @Before
+    @BeforeEach
     public void setup(){
         TEST_ANSWERS.put(QUESTION_ID_1,QUESTION_Answer_1);
         TEST_ANSWERS.put(QUESTION_ID_2,QUESTION_Answer_2);

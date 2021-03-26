@@ -1,14 +1,10 @@
 package application.controllers;
 
-import application.models.*;
-import application.repositories.SurveyRepository;
+import application.models.EditDTO;
+import application.models.OpenEndedQuestion;
+import application.models.QuestionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -27,11 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 public class TestMySurveysController {
@@ -46,7 +41,7 @@ public class TestMySurveysController {
     @InjectMocks
     private SurveyController mySurveysController;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         q1= new OpenEndedQuestion();
         q1.setQuestion("Test Multi");
@@ -96,20 +91,9 @@ public class TestMySurveysController {
                 .andExpect(content().string(
                         org.hamcrest.Matchers.containsString("var dataTable = new google.visualization.DataTable();")));
     }
-
     @WithMockUser(username = "admin", roles = {"SURVEYOR", "USER"})
     @Test
     @Order(4)
-    public void closeSurvey() throws Exception {
-        // 404 first due to survey not exist
-        mockMvc.perform(get("/mysurveys/close/9999")).andExpect(status().isNotFound());
-        mockMvc.perform(get("/cheat")).andExpect(status().isOk());
-        mockMvc.perform(get("/mysurveys/close/1")).andExpect(status().isOk())
-                .andExpect(view().name("mySurveys"));
-    }
-    @WithMockUser(username = "admin", roles = {"SURVEYOR", "USER"})
-    @Test
-    @Order(5)
     public void editSurvey() throws Exception {
         mockMvc.perform(get("/mysurveys/edit/4050")).andExpect(status().isNotFound());
         mockMvc.perform(get("/cheat")).andExpect(status().isOk());
@@ -118,5 +102,17 @@ public class TestMySurveysController {
         mockMvc.perform(patch("/mysurveys/edit").content(objectMapper.writeValueAsString(editDTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict()).andReturn();
     }
+
+    @WithMockUser(username = "admin", roles = {"SURVEYOR", "USER"})
+    @Test
+    @Order(5)
+    public void closeSurvey() throws Exception {
+        // 404 first due to survey not exist
+        mockMvc.perform(get("/mysurveys/close/9999")).andExpect(status().isNotFound());
+        mockMvc.perform(get("/cheat")).andExpect(status().isOk());
+        mockMvc.perform(get("/mysurveys/close/1")).andExpect(status().isOk())
+                .andExpect(view().name("mySurveys"));
+    }
+
 
 }

@@ -1,7 +1,7 @@
 package application.models;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,10 +34,10 @@ public class TestEditDTO {
     private static final List<QuestionDTO> TEST_NEW_QUESTION_DTO_LIST =
             Arrays.asList(TEST_QUESTION_DTO_OPEN_ENDED, TEST_QUESTION_DTO_MULTIPLE_CHOICE, TEST_QUESTION_DTO_RANGE);
 
-    private EditDTO editDTO;
+    private static EditDTO editDTO;
 
-    @Before
-    public void setUp(){
+    @BeforeAll
+    public static void setUp(){
         editDTO = new EditDTO();
         TEST_EDITED_QUESTIONS.put(EDITED_QUESTION_ID, EDITED_QUESTION);
     }

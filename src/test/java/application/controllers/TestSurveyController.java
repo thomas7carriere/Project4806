@@ -2,38 +2,33 @@ package application.controllers;
 
 import application.models.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.*;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 public class TestSurveyController
 {
+    public static final String SURVEY_NAME = "Survey Name";
+
     @Autowired
     private MockMvc mockMvc;
     private QuestionDTO q1, q2, q3;
@@ -43,16 +38,20 @@ public class TestSurveyController
 
     @InjectMocks
     private SurveyController surveyController;
+    private Collection<QuestionDTO> questions;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         QuestionDTO q1 = new QuestionDTO();q1.setQuestionType(QuestionDTO.OPENENDED);q1.setQuestion("OpenEnded Question?");q1.setID(1L);
         QuestionDTO q2 = new QuestionDTO();q2.setQuestionType(QuestionDTO.RANGE);q2.setQuestion("Range Question?");q2.setMin(1);q2.setMax(5);q2.setID(2L);
-        QuestionDTO q3 = new QuestionDTO();q3.setQuestionType(QuestionDTO.MULTIPLECHOICE);q3.setQuestion("MC Question?");
-        Collection<String> choices = new ArrayList<>();choices.add("Choice1");choices.add("Choice2");choices.add("Choice3");q3.setChoices(choices);q3.setID(3L);
-        Collection<QuestionDTO> questions = new ArrayList<>();questions.add(q1);questions.add(q2);questions.add(q3);
-        surveyDTO = new SurveyDTO("Survey Name", questions);
+        QuestionDTO q3 = new QuestionDTO();q3.setQuestionType(QuestionDTO.MULTIPLECHOICE);q3.setQuestion("MC Question?");Collection<String> choices = new ArrayList<>();choices.add("Choice1");choices.add("Choice2");choices.add("Choice3");q3.setChoices(choices);q3.setID(3L);
+        questions = new ArrayList<>();
+        questions.add(q1);
+        questions.add(q2);
+        questions.add(q3);
+
+        surveyDTO = new SurveyDTO(SURVEY_NAME, questions);
         survey = dtoToSurvey(surveyDTO);survey.setId(1L);
 
         HashMap<Long,String> questionAnswers= new HashMap<>();
@@ -95,7 +94,7 @@ public class TestSurveyController
     public void getViewSurvey() throws Exception{
         mockMvc.perform(get("/survey/view/{id}", 1L)).andExpect(status().isOk())
                 .andExpect(view().name("viewSurvey"))
-                .andExpect(model().attribute("surveyDto", hasProperty("name", is("Survey Name"))))
+                .andExpect(model().attribute("surveyDto", hasProperty("name", is(SURVEY_NAME))))
                 .andExpect(model().attribute("surveyDto", hasProperty("questions", hasSize(survey.getQuestions().size()))));
     }
 
@@ -123,6 +122,37 @@ public class TestSurveyController
         mockMvc.perform(get("/survey/create")).andExpect(status().isForbidden());
     }
 
+    @WithMockUser(username="admin",roles={"SURVEYOR"})
+    @Test
+    @Order(7)
+    public void deleteSurveyWithAuthorization() throws Exception {
+        //Add Survey
+        mockMvc.perform(post("/survey/create")
+                .content(new ObjectMapper().writeValueAsString(new SurveyDTO(SURVEY_NAME + " 2", questions)))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+
+
+        //Need to suppress unchecked warning due to type erasure
+        @SuppressWarnings("unchecked")
+        ArrayList<SurveyDTO> surveyDtoList =
+                (ArrayList<SurveyDTO>) Objects.requireNonNull(mockMvc.perform(get("/survey/view"))
+                        .andReturn().getModelAndView()).getModel().get("surveyDtoList");
+
+        //Delete Survey (Should be 204 HttpStatus.NO_CONTENT)
+        mockMvc.perform(delete("/survey/delete/{id}", surveyDtoList.size())).andExpect(status().isNoContent());
+
+        //Delete Survey Again (Should be 404 HttpStatus.NOT_FOUND)
+        mockMvc.perform(delete("/survey/delete/{id}", surveyDtoList.size())).andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(username="user")
+    @Test
+    @Order(8)
+    public void deleteSurveyWithoutAuthorization() throws Exception {
+        mockMvc.perform(delete("/survey/delete/{id}", 1L)).andExpect(status().isForbidden());
+    }
+
     //Should probably make this a service somewhere, it's used in the Survey Controller as well
     public Survey dtoToSurvey(SurveyDTO surveyDTO){
         Collection<QuestionDTO> questions = surveyDTO.getQuestions();
@@ -148,10 +178,25 @@ public class TestSurveyController
     //Tests answerSurvey Controller with a json representation of a AnswerDTO object
     @WithMockUser(username = "admin", roles = {"SURVEYOR", "USER"})
     @Test
-    @Order(7)
+    @Order(9)
     public void answerSurvey() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/survey/answer").content(objectMapper.writeValueAsString(answerDTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @WithMockUser(username = "admin", roles = {"SURVEYOR", "USER"})
+    @Test
+    @Order(10)
+    public void searchSurvey() throws Exception {
+        //Search for survey that exists
+        mockMvc.perform(get("/survey/view").param("surveyName", SURVEY_NAME)).andExpect(status().isOk())
+                .andExpect(view().name("viewSurveyList"))
+                .andExpect(model().attribute("surveyDtoList", hasSize(1)));
+
+        //Search for survey that should not exist
+        mockMvc.perform(get("/survey/view").param("surveyName", "Should not exist")).andExpect(status().isOk())
+                .andExpect(view().name("viewSurveyList"))
+                .andExpect(model().attribute("surveyDtoList", hasSize(0)));
     }
 }

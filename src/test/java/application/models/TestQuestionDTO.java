@@ -1,12 +1,12 @@
 package application.models;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestQuestionDTO {
 
@@ -18,7 +18,7 @@ public class TestQuestionDTO {
     private static final List<String> TEST_CHOICES = Arrays.asList("red", "yellow", "green");
     private static final long TEST_QUESTION_ID = 5L;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         questionDTO = new QuestionDTO();
     }

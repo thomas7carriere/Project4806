@@ -4,6 +4,7 @@ import application.models.*;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,9 @@ public class SurveyController{
     private final String SURVEY_CREATE = "/survey/create";
     private final String SURVEY_VIEW_LIST = "/survey/view";
     private final String SURVEY_VIEW_ID = "/survey/view/{surveyId}";
+    private final String SURVEY_DELETE_ID = "/survey/delete/{surveyId}";
     private final String SURVEY_ANSWER = "/survey/answer";
+    private final String HELP_PAGE = "/survey/help";
 
 
     private SurveyRepository surveyRepo;
@@ -140,15 +143,47 @@ public class SurveyController{
      * Shows all surveys in the system
      *
      * @param model
+     * @param surveyName name of survey to filter to
      * @return
      */
     @GetMapping(SURVEY_VIEW_LIST)
-    public String viewSurveyList(Model model) {
-        Iterable<Survey> surveys = surveyRepo.findAll();
+    public String viewSurveyList(Model model, @Param("surveyName") String surveyName) {
         List<SurveyDTO> surveyDtoList = new ArrayList<>();
+        Iterable<Survey> surveys;
+        if(surveyName == null){
+            //by default show all surveys
+            surveys = surveyRepo.findAll();
+        } else {
+            //filter surveys if survey name parameter is specified
+            surveys = surveyRepo.findByNameContaining(surveyName);
+        }
         surveys.forEach(e-> surveyDtoList.add(new SurveyDTO(e)));
-
         model.addAttribute("surveyDtoList", surveyDtoList);
         return "viewSurveyList";
+    }
+
+    /***
+     * Delete survey with specified id
+     *
+     * @param surveyId id of survey to delete
+     */
+    @DeleteMapping(SURVEY_DELETE_ID)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteSurvey(@PathVariable Long surveyId){
+        Survey survey = surveyRepo.findById(surveyId).orElse(null);
+        if(survey == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+        } else {
+            surveyRepo.deleteById(surveyId);
+        }
+    }
+
+    /**
+     * @return the view template "helpPage.html"
+     */
+    @GetMapping(HELP_PAGE)
+    public String getHelpPage(){
+
+        return "helpPage";
     }
 }

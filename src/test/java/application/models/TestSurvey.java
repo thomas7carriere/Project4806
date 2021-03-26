@@ -1,13 +1,13 @@
 package application.models;
 
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSurvey {
     private Survey survey;
@@ -17,7 +17,7 @@ public class TestSurvey {
     private OpenEndedQuestion open;
 
 
-    @Before
+    @BeforeEach
     public void setUp(){
         multi = new MultipleChoiceQuestion();
         range = new RangeQuestion();
