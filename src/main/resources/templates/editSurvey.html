@@ -1,12 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Edit Survey Page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/scripts/editSurvey.js"></script>
 </head>
 <body>
+<h2>Edit Survey</h2>
+<form id = "editQs">
+    <div><br>
+        <p>Edit Survey Name:
+            <input type = "text" id = "surveyN" th:name = "${surveyDto.id}" th:value = "${surveyDto.name}">
+        </p>
+    </div>
+    <div th:each = "questionDto : ${surveyDto.questions}" class = "editableQs"><br>
+        <label th:text = "'Edit ' + ${questionDto.questionType} + ' Question '+  ${questionDtoStat.count}"></label>
+        <input type = "text" th:id ="'q'+${questionDtoStat.count}"  th:name = "${questionDto.ID}" th:value = "${questionDto.question}">
+    </div>
+</form>
 
+<form id="newQSelectForm" onsubmit = "return addNewQuestion(event)">
+    <div class = "questions"><br>
+        <label for="questionDD">Add New Questions</label>
+        <select id = "questionDD" onchange="showMC()">
+            <option value="openEnded">OpenEnded Question</option>
+            <option value="range">Range Question</option>
+            <option value="multipleChoice">MC Question</option>
+        </select><br />
+        <div id = "MC"><br>
+            <label for = "numMC">Input Number of MC answers</label>
+            <input type = "text" id = "numMC">
+        </div>
+        <input type = "submit" value = "Add Question"><br>
+    </div>
+</form><br />
+
+<button onclick="saveSurvey(event)">Save Survey</button>
 
 </body>
 </html>
