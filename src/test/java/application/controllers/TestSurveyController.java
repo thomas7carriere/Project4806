@@ -49,7 +49,8 @@ public class TestSurveyController
     {
         QuestionDTO q1 = new QuestionDTO();q1.setQuestionType(QuestionDTO.OPENENDED);q1.setQuestion("OpenEnded Question?");q1.setID(1L);
         QuestionDTO q2 = new QuestionDTO();q2.setQuestionType(QuestionDTO.RANGE);q2.setQuestion("Range Question?");q2.setMin(1);q2.setMax(5);q2.setID(2L);
-        QuestionDTO q3 = new QuestionDTO();q3.setQuestionType(QuestionDTO.MULTIPLECHOICE);q3.setQuestion("MC Question?");Collection<String> choices = new ArrayList<>();choices.add("Choice1");choices.add("Choice2");choices.add("Choice3");q3.setChoices(choices);q3.setID(3L);
+        QuestionDTO q3 = new QuestionDTO();q3.setQuestionType(QuestionDTO.MULTIPLECHOICE);q3.setQuestion("MC Question?");
+        Collection<String> choices = new ArrayList<>();choices.add("Choice1");choices.add("Choice2");choices.add("Choice3");q3.setChoices(choices);q3.setID(3L);
         Collection<QuestionDTO> questions = new ArrayList<>();questions.add(q1);questions.add(q2);questions.add(q3);
         surveyDTO = new SurveyDTO("Survey Name", questions);
         survey = dtoToSurvey(surveyDTO);survey.setId(1L);

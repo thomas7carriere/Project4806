@@ -47,7 +47,9 @@ public class MySurveysController {
     public String editSurvey(Model model, @PathVariable String surveyId){
         Survey survey = surveyRepo.findById(Long.parseLong(surveyId));
         if (survey == null || !survey.isOpen()) {
-            return "404";
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Survey doesn't exist"
+            );
         }
         else {
             SurveyDTO surveyDTO = new SurveyDTO(survey);
