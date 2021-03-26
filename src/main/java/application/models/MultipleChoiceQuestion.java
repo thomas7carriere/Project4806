@@ -1,10 +1,12 @@
 package application.models;
 
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Subclass of Question class
@@ -25,8 +27,6 @@ public class MultipleChoiceQuestion extends Question{
      */
     @ElementCollection
     private Map<Integer,String> choicesID = new HashMap<Integer,String>();
-
-
 
     /**
      * Stores a mapping of the Unique id of choices to the number of times that choice was chosen

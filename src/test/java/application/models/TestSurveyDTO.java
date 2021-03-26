@@ -1,5 +1,7 @@
 package application.models;
 
+import application.models.dto.QuestionDTO;
+import application.models.dto.SurveyDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,6 +60,9 @@ public class TestSurveyDTO {
         OpenEndedQuestion openEndedQuestion = new OpenEndedQuestion(TEST_QUESTION);
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion(TEST_QUESTION, TEST_CHOICES);
         RangeQuestion rangeQuestion = new RangeQuestion(TEST_QUESTION, TEST_MIN_VAL, TEST_MAX_VAL);
+        openEndedQuestion.setId(0L);
+        multipleChoiceQuestion.setId(0L);
+        rangeQuestion.setId(0L);
 
         List<Question> listOfQuestions = new ArrayList<>();
         listOfQuestions.add(openEndedQuestion);

@@ -12,17 +12,17 @@
 <!-- using setOnLoadCallback here does not seem to work-->
 <div th:each="result : ${resultList}">
     <p th:text="${resultStat.count}+': '+${result.question}"></p><th:block th:switch="${result.questionType}">
-    <div th:case="${T(application.models.QuestionDTO).OPENENDED}">
+    <div th:case="${T(application.models.dto.QuestionDTO).OPENENDED}">
         <div th:each="answer : ${result.stringAnswers}">
             <p th:text="${answer}"></p>
         </div>
     </div>
-    <div th:case="${T(application.models.QuestionDTO).RANGE}" th:id="'histogram'+${resultStat.count}">
+    <div th:case="${T(application.models.dto.QuestionDTO).RANGE}" th:id="'histogram'+${resultStat.count}">
         <script th:inline="javascript">
             setTimeout(function(){(drawHistogram('histogram[[${resultStat.count}]]', [[${result.chartData}]]))},400);
         </script>
     </div>
-    <div th:case="${T(application.models.QuestionDTO).MULTIPLECHOICE}" th:id="'piechart'+${resultStat.count}">
+    <div th:case="${T(application.models.dto.QuestionDTO).MULTIPLECHOICE}" th:id="'piechart'+${resultStat.count}">
         <script th:inline="javascript">
             setTimeout(function(){(drawPieChart('piechart[[${resultStat.count}]]', [[${result.chartData}]]))},400);
         </script>

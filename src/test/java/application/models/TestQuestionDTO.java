@@ -1,5 +1,6 @@
 package application.models;
 
+import application.models.dto.QuestionDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

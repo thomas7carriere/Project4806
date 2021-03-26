@@ -1,5 +1,10 @@
 package application.models;
 
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -13,6 +18,8 @@ import java.util.*;
 
 @Entity
 @DiscriminatorValue("2")
+@Getter
+@Setter
 public class RangeQuestion extends Question
 {
     protected int min;
@@ -38,60 +45,6 @@ public class RangeQuestion extends Question
         super(question);
         this.min = min;
         this.max = max;
-    }
-
-    /**
-     * Gets the minimum boundary for a question of this type
-     *
-     * @return the minimum value
-     */
-    public int getMin(){
-        return min;
-    }
-
-    /**
-     * Sets the minimum boundary for a question of this type
-     *
-     * @param min is the minimum value for the question
-     */
-    public void setMin(int min){
-        this.min = min;
-    }
-
-    /**
-     * Gets the maximum boundary for a question of this type
-     *
-     * @return the maximum value
-     */
-    public int getMax(){
-        return max;
-    }
-
-    /**
-     * Sets the maximum boundary for a question of this type
-     *
-     * @param max is the maximum value for the question
-     */
-    public void setMax(int max){
-        this.max = max;
-    }
-
-    /**
-     * Replaces the collection of answers with the new set of answers
-     *
-     * @param answer is an array list of integers
-     */
-    public void setAnswer(List<Integer> answer){
-        this.answer = answer;
-    }
-
-    /**
-     * retrieves the answers from the survey
-     *
-     * @return an ArrayList of integers
-     */
-    public List<Integer> getAnswer(){
-        return answer;
     }
 
     /**

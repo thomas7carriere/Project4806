@@ -1,13 +1,13 @@
 package application.models;
 
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
 
 @Entity(name="questions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

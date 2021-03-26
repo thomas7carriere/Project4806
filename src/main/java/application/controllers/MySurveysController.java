@@ -1,6 +1,10 @@
 package application.controllers;
 
 import application.models.*;
+import application.models.dto.EditDTO;
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
+import application.models.dto.SurveyDTO;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;

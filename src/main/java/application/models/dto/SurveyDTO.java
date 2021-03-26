@@ -1,5 +1,6 @@
-package application.models;
+package application.models.dto;
 
+import application.models.Survey;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

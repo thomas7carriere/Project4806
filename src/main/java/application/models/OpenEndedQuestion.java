@@ -1,5 +1,8 @@
 package application.models;
 
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -69,7 +72,7 @@ public class OpenEndedQuestion extends Question{
 
     @Override
     public QuestionDTO toDto() {
-        return new QuestionDTO(QuestionDTO.OPENENDED, this.getQuestion(), 0, 0, new ArrayList<>(),super.getId());
+        return new QuestionDTO(QuestionDTO.OPENENDED, this.getQuestion(), 0, 0, new ArrayList<>(), super.getId());
     }
 
     @Override

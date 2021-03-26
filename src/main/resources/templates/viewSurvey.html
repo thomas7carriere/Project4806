@@ -12,15 +12,15 @@
 <form action="#" method="post" th:id = "${surveyDto.id}" onsubmit="return answerSurvey(event)">
 <div th:each="questionDto : ${surveyDto.questions}">
     <p th:text="${questionDtoStat.count}+': '+${questionDto.question}"></p><th:block th:switch="${questionDto.questionType}">
-        <label th:case="${T(application.models.QuestionDTO).OPENENDED}">
+        <label th:case="${T(application.models.dto.QuestionDTO).OPENENDED}">
             <textarea th:id="'q'+${questionDtoStat.count}" rows="10" cols="30" th:name="${questionDto.ID}"></textarea >
         </label>
-        <label th:case="${T(application.models.QuestionDTO).RANGE}">
+        <label th:case="${T(application.models.dto.QuestionDTO).RANGE}">
             <input type="range" th:id="'q'+${questionDtoStat.count}" th:min="${questionDto.min}" th:max="${questionDto.max}" th:name="${questionDto.ID}"
                    oninput="this.nextElementSibling.value = this.value"/>
             <output th:text="${questionDto.min}">0</output>
         </label>
-        <th:block th:case="${T(application.models.QuestionDTO).MULTIPLECHOICE}">
+        <th:block th:case="${T(application.models.dto.QuestionDTO).MULTIPLECHOICE}">
             <label th:each="choice : ${questionDto.choices}">
                 <input type="radio" th:name="${questionDto.ID}"
                            th:id="'q'+${questionDtoStat.count}+'c'+${choiceStat.count}"
