@@ -39,17 +39,22 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 		<td>2</td>
 		<td>
 			<ul>
-				<li>Add login page for surveyor</li>
+				<li>Security and Authentication</li>
 				<li>Answer surveys</li>
-				<li>Convert survey answers to histogram</li>
-				<li>Convert survey answers to pie chart</li>
-				<li>Validate form inputs</li>
+				<li>View survey results as histograms/piecharts/lists</li>
+				<li>Delete, Edit, and Close Surveys</li>
+				<li>Help Page</li>
 			</ul>
 		</td>
 	</tr>
 	<tr>
 		<td>3</td>
-		<td></td>
+		<td>
+            <ul>
+				<li>Presentation Topics</li>
+                <li>Database on Heroku</li>
+			</ul>
+        </td>
 	</tr>
 </table>
 
@@ -59,6 +64,14 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 	<tr>
 		<th>URL</th>
 		<th>Method</th>
+	</tr>
+    <tr>
+		<td>/survey/help</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
 	</tr>
 	<tr>
 		<td>/survey/create</td>
@@ -85,10 +98,60 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 			</ul>
 		</td>
 	</tr>
+    <tr>
+		<td>/survey/answer</td>
+		<td>
+			<ul>
+				<li>POST</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+		<td>/mysurveys</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+		<td>/survey/delete/{surveyId}</td>
+		<td>
+			<ul>
+				<li>DELETE</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+		<td>/mysurveys/close/{surveyId}</td>
+		<td>
+			<ul>
+				<li>PATCH</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+		<td>/mysurveys/edit/{surveyId}</td>
+		<td>
+			<ul>
+                <li>GET</li>				
+                <li>PATCH</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+		<td>/mysurveys/results/{surveyId}</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
+	</tr>
+
 </table>
 
 <H3>Links:</H3>
 
 - Heroku: https://project4806.herokuapp.com/
 - TravisCI: https://www.travis-ci.com/github/thomas7carriere/Project4806
-- Database Schema: [Milestone 1 Schema](https://github.com/thomas7carriere/Project4806/blob/master/Milestone1-Documents/Schema-Milestone1.png?raw=true)
+- Database Schema: [Schema](https://github.com/thomas7carriere/Project4806/blob/master/Documents/Schema-Milestone.png?raw=true)
