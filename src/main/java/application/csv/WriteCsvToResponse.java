@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import java.io.PrintWriter;
 import java.util.Collection;
 
-//@Slf4j lombok!
 public class WriteCsvToResponse {
 
     private static final Logger log = LoggerFactory.getLogger(WriteCsvToResponse.class);

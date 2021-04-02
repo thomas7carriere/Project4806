@@ -41,16 +41,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").hasAnyRole("SURVEYOR", "USER")
+                .antMatchers("/survey/create").hasRole("SURVEYOR")
+                .antMatchers("/mysurveys").hasRole(("SURVEYOR"))
                 .antMatchers("/cheat").hasRole("SURVEYOR")
                 .antMatchers("/export").hasRole("SURVEYOR")
-                .antMatchers("/mysurveys").hasRole(("SURVEYOR"))
                 .antMatchers("/mysurveys/edit/**").hasAnyRole("SURVEYOR")
-                .antMatchers("/mysurveys/export/**").hasAnyRole("SURVEYOR")
+                .antMatchers("/mysurveys/export/**").hasRole("SURVEYOR")
                 .antMatchers("/mysurveys/view/**").hasAnyRole("SURVEYOR")
-                .antMatchers("/survey/create").hasRole("SURVEYOR")
-                .antMatchers("/survey/delete/**").hasAnyRole("SURVEYOR")
                 .antMatchers("/survey/view/**").hasAnyRole("SURVEYOR", "USER")
+                .antMatchers("/survey/delete/**").hasAnyRole("SURVEYOR")
+                .antMatchers("/").hasAnyRole("SURVEYOR", "USER")
                 .antMatchers("/h2-console/**").permitAll() //Allow access to h2-console
                 .and().formLogin().permitAll().and()
                 .csrf().disable();
