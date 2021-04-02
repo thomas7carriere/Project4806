@@ -48,4 +48,31 @@ public class TestOpenEndedQuestion {
         assertEquals(2, q.getAnswer().size());
     }
 
+    @Test
+    public void TestGetType() {
+        assertEquals("OE", q.getType());
+    }
+
+    @Test
+    public void TestOptionToDSV() {
+        assertEquals("", q.optionToDSV());
+    }
+
+    @Test
+    public void TestAnswersToDSV() {
+        List<String> answer = new ArrayList<>();
+        answer.add(ANSWER1);
+        answer.add(ANSWER2);
+        q.setAnswer(answer);
+        assertEquals(String.join("*", answer), q.answersToDSV());
+    }
+
+    @Test
+    public void TestGetAnswerSummaryForExport() {
+        List<String> summary = new ArrayList<>();
+        summary.add(ANSWER1);
+        summary.add(ANSWER2);
+        q.setAnswer(summary);
+        assertEquals(summary, q.getAnswerSummaryForExport());
+    }
 }

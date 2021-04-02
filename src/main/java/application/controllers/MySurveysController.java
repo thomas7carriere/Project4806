@@ -1,8 +1,11 @@
 package application.controllers;
 
+import application.csv.WriteCsvToResponse;
 import application.models.*;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -11,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +23,7 @@ import java.util.Map;
 
 @Controller
 public class MySurveysController {
-
+    private static final Logger log = LoggerFactory.getLogger(WriteCsvToResponse.class);
     private SurveyRepository surveyRepo;
     private QuestionRepository questionRepo;
 
@@ -152,5 +157,27 @@ public class MySurveysController {
         surveys.forEach(e -> surveyDtoList.add(new SurveyDTO(e)));
         model.addAttribute("surveyDtoList", surveyDtoList);
         return "mySurveys";
+    }
+
+    /**
+     * Export the survey results as a CSV
+     *
+     * @param surveyId id of the survey
+     * @param response response used for writting output into
+     * @throws IOException when response.getWriter() fails
+     */
+    @GetMapping(value = "/mysurveys/export/{surveyId}.csv")
+    @ResponseBody
+    public void exportSurvey(@PathVariable String surveyId, HttpServletResponse response) throws IOException {
+        Survey survey = surveyRepo.findById(Long.parseLong(surveyId));
+        if (survey == null) {
+            log.debug("User requested exporting survey %d, but it does not exist", surveyId);
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Survey doesn't exist"
+            );
+        }
+        response.setContentType("text/csv");
+        WriteCsvToResponse.writeSurveySummary(response.getWriter(), survey);
+        log.trace("User requested exporting survey %d", surveyId);
     }
  }

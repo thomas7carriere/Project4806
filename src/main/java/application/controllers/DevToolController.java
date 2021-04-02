@@ -1,22 +1,29 @@
 package application.controllers;
 
+import application.csv.WriteCsvToResponse;
 import application.models.*;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
+import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /***
  *     Tools for assisting development
  */
 @Controller
 class DevToolController {
-
+    private static final Logger log = LoggerFactory.getLogger(WriteCsvToResponse.class);
     private SurveyRepository surveyRepo;
     private QuestionRepository questionRepo;
     private int surveyCount = 0;
@@ -64,7 +71,21 @@ class DevToolController {
             survey.setOpen(false);
         }
         surveyRepo.save(survey);
+        log.info("DevTool cheat function was triggered");
         return "A survey with question has been created";
     }
 
+    /***
+     * Dev tool for exporting all surveys on this system
+     * @param response response used for writting output into
+     * @throws IOException when response.getWriter() fails
+     */
+    @GetMapping(value = "export", produces = "text/csv")
+    public void closeSurvey(HttpServletResponse response) throws IOException {
+        Iterable<Survey> surveys = surveyRepo.findAll();
+        List<Survey> list = Lists.newArrayList(surveys);
+
+        WriteCsvToResponse.writeSurveys(response.getWriter(), list);
+        log.info("DevTool export function was triggered with %d surveys", list.size());
+    }
 }

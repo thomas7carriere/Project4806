@@ -1,9 +1,9 @@
 package application.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.opencsv.bean.CsvBindByName;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Entity(name="questions")
@@ -13,8 +13,15 @@ abstract public class Question {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @JsonIgnore
+    @CsvBindByName
     private Long id;
+    @CsvBindByName
     private String question;
+
+    /**
+     * Delimiter used when dumping all surveys
+     */
+    protected static final String ANSWER_DELIMITER = "*";
 
     public Question(){
     }
@@ -53,4 +60,31 @@ abstract public class Question {
      */
     abstract public ResultDTO populateResultDTO();
 
+    /**
+     * Get a string representation of the type of the question
+     *
+     * @return an abbreviation indicating the type of question
+     */
+    abstract public String getType();
+
+    /**
+     * Return the options or criteria of this question as a string
+     *
+     * @return all options/criteria
+     */
+    abstract public String optionToDSV();
+
+    /**
+     * Return all answer to this question as a delimiter separated string
+     *
+     * @return all answers
+     */
+    abstract public String answersToDSV();
+
+    /**
+     * Return a summary of this question as a list of strings
+     *
+     * @return summary in the form of a list
+     */
+    abstract public List<String> getAnswerSummaryForExport();
 }
