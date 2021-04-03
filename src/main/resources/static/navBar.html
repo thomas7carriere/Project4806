@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<style>
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+        position: fixed;
+        top: 1%;
+        width: 99%;
+    }
+    li {
+        float: left;
+        border-right: 1px solid #bbb;
+    }
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    li a:hover:not(.active) {
+        background-color: #111;
+    }
+    .active {
+        background-color: #4caf50;
+    }
+    body { padding-top: 70px; }
+</style>
+<!--Added in the future to highlight active link-->
+<!--<script>-->
+<!--    $("ul li a").on("click", function(e){-->
+<!--        $("li a").removeClass("active");-->
+<!--        $(this).addClass("active");-->
+
+<!--    });-->
+<!--</script>-->
+<nav class = "navigation">
+    <ul class = "nav" id = "nav">
+        <li class = "link"> <a  href="/survey/create">Create a survey</a></li>
+        <li class = "link"> <a  href="/mysurveys">Edit your surveys</a></li>
+        <li class = "link"> <a  href="/survey/view">View all surveys</a></li>
+        <li class = "link"> <a  href="/survey/help">Help page</a></li>
+    </ul>
+</nav>
+</html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <meta charset="UTF-8">
     <title>Mini-survey monkey</title>
 </head>
@@ -25,5 +26,11 @@
         </div>
     </tr>
 </table>
+<div id="nav-placeholder"></div>
+<script>
+    $(function(){
+        $("#nav-placeholder").load("/navBar.html");
+    });
+</script>
 </body>
 </html>

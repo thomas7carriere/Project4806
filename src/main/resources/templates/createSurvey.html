@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/scripts/createSurvey.js"></script>
+    <link type = "text/css" href="style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -28,6 +29,12 @@
 </form>
 
 <button onclick="sendSurvey()">Create Survey</button>
+<div id="nav-placeholder"></div>
+<script>
+    $(function(){
+        $("#nav-placeholder").load("/navBar.html");
+    });
+</script>
 
 </body>
 </html>
