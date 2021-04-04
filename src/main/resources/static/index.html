@@ -4,10 +4,28 @@
     <title>SurveyMonkey Project</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles.css">
 </head>
+<style>
+    .returnMonke {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .welcomeMessage{
+        position: fixed;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<h1 class = "welcomeMessage">
+    Welcome to creating questionnaires, we hope you enjoy your stay
+</h1>
 <body>
 <div id="nav-placeholder">
 </div>
+<img src="returnToMonke.gif" alt = "monke" class = "returnMonke">
 <script>
     $.get("navBar.html", function(data){
         $("#nav-placeholder").replaceWith(data);
