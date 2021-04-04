@@ -91,7 +91,7 @@ public class SurveyController{
     public String viewSurvey(Model model, @PathVariable String surveyId) {
         Survey survey = surveyRepo.findById(Long.parseLong(surveyId));
         if (survey == null || !survey.isOpen()) {
-            return "404"; //TODO: implement proper error pages
+            return "404";
         } else {
             SurveyDTO surveyDTO = new SurveyDTO(survey);
             model.addAttribute("surveyDto", surveyDTO);
@@ -186,4 +186,7 @@ public class SurveyController{
 
         return "helpPage";
     }
+
+
+
 }
