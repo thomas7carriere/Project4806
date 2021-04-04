@@ -2,6 +2,7 @@ package application.models;
 
 import application.models.dto.QuestionDTO;
 import application.models.dto.ResultDTO;
+import lombok.Getter;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
@@ -20,12 +21,14 @@ public class MultipleChoiceQuestion extends Question{
      *  Holds the collection of choices a user can choose from
      */
     @ElementCollection
+    @Getter
      private Collection<String> choices;
 
     /**
      * Stores a mapping Unique Id to the string representation of the choice
      */
     @ElementCollection
+    @Getter
     private Map<Integer,String> choicesID = new HashMap<Integer,String>();
 
     /**
@@ -55,14 +58,6 @@ public class MultipleChoiceQuestion extends Question{
     public MultipleChoiceQuestion(String question, Collection<String> choices){
         super(question);
         setChoices(choices);
-    }
-
-    /**
-     * Returns the collection of choices
-     * @return the collection of choices that a user can pick
-     */
-    public Collection<String> getChoices() {
-        return choices;
     }
 
     /**
@@ -117,14 +112,6 @@ public class MultipleChoiceQuestion extends Question{
      */
     public int getAnswer(int answer){
         return answersValues.get(answer);
-    }
-
-    /**
-     * Used to return a map of the unique IDs for each choice
-     * @return a mapping of the choices and anwers given for each choice
-     */
-    public Map<Integer, String> getChoicesID() {
-        return choicesID;
     }
 
     /**

@@ -1,5 +1,9 @@
 package application.models.dto;
 
+import application.models.MultipleChoiceQuestion;
+import application.models.OpenEndedQuestion;
+import application.models.Question;
+import application.models.RangeQuestion;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -11,6 +15,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 public class QuestionDTO {
 
@@ -26,15 +31,6 @@ public class QuestionDTO {
     private Long ID;
 
     public static final String OPENENDED = "openEnded", RANGE = "range", MULTIPLECHOICE = "multipleChoice";
-
-    public QuestionDTO(String questionType, String question, int min, int max, Collection<String> choices, Long id) {
-        this.questionType = questionType;
-        this.question = question;
-        this.min = min;
-        this.max = max;
-        this.choices = choices;
-        this.ID =id;
-    }
 
     @Override
     public String toString(){

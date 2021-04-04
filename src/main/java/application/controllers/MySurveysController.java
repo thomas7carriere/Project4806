@@ -88,7 +88,7 @@ public class MySurveysController {
             }
         }
         Collection<QuestionDTO> newQuestions = editDTO.getNewQuestions();
-        System.out.println(newQuestions != null);
+
         if(newQuestions != null){
             for(QuestionDTO question: newQuestions){
                 switch(question.getQuestionType()){
