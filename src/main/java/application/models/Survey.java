@@ -1,6 +1,11 @@
 package application.models;
 
+import application.csv.TextToQuestion;
+import application.csv.WriteCsvToResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.opencsv.bean.CsvBindAndSplitByName;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvRecurse;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,20 +17,25 @@ public class Survey {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @JsonIgnore
+    @CsvBindByName
     private long id;
 
     //Not sure if "surveyorUsername" and "open" should be in SurveyDTO as well.
     //If they are added to SurveyDto, JsonIgnore needs to be removed here, and tests updated
     @JsonIgnore
+    @CsvBindByName
     private String surveyorUsername;
     @JsonIgnore
+    @CsvBindByName
     private boolean open = true;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @CsvBindAndSplitByName(elementType = Question.class, splitOn = ";+", writeDelimiter = ";", converter = TextToQuestion.class)
     private List<Question> questions = new ArrayList<>();
 
     //Surveys need a unique name
     @Column(unique=true)
+    @CsvBindByName
     private String name;
 
     /**

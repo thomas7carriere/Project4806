@@ -150,4 +150,52 @@ public class MultipleChoiceQuestion extends Question{
 
         return resultDTO;
     }
+
+    @Override
+    public String getType() {
+        return "MC";
+    }
+
+    @Override
+    public String optionToDSV() {
+        Iterator<Map.Entry<Integer, String>> it = choicesID.entrySet().iterator();
+        StringBuilder sb = new StringBuilder();
+
+        while (it.hasNext()) {
+            Map.Entry<Integer, String> e = it.next();
+            sb.append(String.format("%d:%s", e.getKey(), e.getValue()));
+            if (it.hasNext()) {
+                sb.append("|");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public String answersToDSV() {
+        return answersValues.values().stream().map(String::valueOf).collect(Collectors.joining(Question.ANSWER_DELIMITER));
+    }
+
+    @Override
+    public List<String> getAnswerSummaryForExport() {
+        long sum = 0;
+        List<String> summary = new ArrayList<>();
+
+        for (Map.Entry<Integer, Integer> entry : answersValues.entrySet()) {
+            sum += entry.getValue();
+        }
+
+        summary.add("Answer Options,\"Response Percent\",\"Response Count\"");
+        for (Map.Entry<Integer, String> entry : choicesID.entrySet()) {
+            Integer response_count = answersValues.get(entry.getKey());
+            String str = String.format("%s,\"%.2f%%\",%d",
+                    entry.getValue(),
+                    (float) response_count / sum * 100,
+                    response_count);
+            summary.add(str);
+        }
+
+        return summary;
+    }
 }

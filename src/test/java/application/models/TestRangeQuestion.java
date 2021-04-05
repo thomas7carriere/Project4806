@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,5 +79,31 @@ public class TestRangeQuestion {
         assertEquals(q1.getQuestion(), dto.getQuestion());
         assertEquals(QuestionDTO.RANGE, dto.getQuestionType());
         assertEquals(1, dto.getChartData().size());
+    }
+
+    @Test
+    public void TestGetType() {
+        assertEquals("R", q1.getType());
+    }
+
+    @Test
+    public void TestOptionToDSV() {
+        assertEquals("0|117", q1.optionToDSV());
+    }
+
+    @Test
+    public void TestAnswersToDSV() {
+        q1.setAnswer(Arrays.asList(1,2,3,4));
+        assertEquals("1*2*3*4", q1.answersToDSV());
+    }
+
+    @Test
+    public void TestGetAnswerSummaryForExport() {
+        List<String> summary = new ArrayList<>();
+        summary.add("Answer,\"Response Count\"");
+        summary.add("10,2");
+        summary.add("33,1");
+        q1.setAnswer(Arrays.asList(10, 10, 33));
+        assertEquals(summary, q1.getAnswerSummaryForExport());
     }
 }
