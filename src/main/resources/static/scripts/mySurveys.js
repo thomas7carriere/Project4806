@@ -54,3 +54,6 @@ function deleteSurvey(){
         alert("No survey to delete")
     }
 }
+function back(){
+    window.history.back();
+}
