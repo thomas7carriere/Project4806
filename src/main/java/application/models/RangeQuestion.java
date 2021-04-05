@@ -1,9 +1,12 @@
 package application.models;
 
+import com.google.common.collect.*;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This is the subclass of Question class.
@@ -117,5 +120,29 @@ public class RangeQuestion extends Question
         resultDTO.setChartData(list);
 
         return resultDTO;
+    }
+
+    @Override
+    public String getType() {
+        return "R";
+    }
+
+    @Override
+    public String optionToDSV() {
+        return String.format("%d|%d", min, max);
+    }
+
+    @Override
+    public String answersToDSV() {
+        return answer.stream().map(String::valueOf).collect(Collectors.joining(Question.ANSWER_DELIMITER));
+    }
+
+    @Override
+    public List<String> getAnswerSummaryForExport() {
+        List<String> summary = new ArrayList<>();
+        SortedMultiset<Integer> ms = TreeMultiset.create(answer);
+        summary.add("Answer,\"Response Count\"");
+        ms.elementSet().forEach(e -> summary.add(String.format("%d,%d", e, ms.count(e))));
+        return summary;
     }
 }
