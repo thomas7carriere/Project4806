@@ -5,6 +5,7 @@
     <title th:text="${surveyDto.name}"></title>
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/scripts/answerSurvey.js"></script>
+    <script type="text/javascript" src="/scripts/mySurveys.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="/styles.css">
 </head>
 <body>
@@ -35,6 +36,7 @@
 </div>
 <input type="submit" value="Submit answers">
 </form>
+<button onclick="back()">Back</button>
 <div id="nav-placeholder"></div>
 <script>
     $(function(){
