@@ -5,6 +5,7 @@
     <title th:text="${surveyDto.name}"></title>
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/scripts/answerSurvey.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles.css">
 </head>
 <body>
 <!-- TODO: put some survey info here? -->
@@ -34,5 +35,11 @@
 </div>
 <input type="submit" value="Submit answers">
 </form>
+<div id="nav-placeholder"></div>
+<script>
+    $(function(){
+        $("#nav-placeholder").load("/navBar.html");
+    });
+</script>
 </body>
 </html>
