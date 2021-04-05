@@ -54,3 +54,16 @@ function deleteSurvey(){
         alert("No survey to delete")
     }
 }
+function exportSurvey(){
+    const surveyId = $("#surveyDropDown").val();
+    if(surveyId != null){
+        const value = "/mysurveys/export/" + surveyId + ".csv";
+        $(location).attr('href', value);
+    }
+    else{
+        alert("No survey to export results");
+    }
+}
+function back(){
+    window.history.back();
+}
