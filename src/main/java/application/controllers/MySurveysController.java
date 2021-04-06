@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Controller
 public class MySurveysController {
-    private static final Logger log = LoggerFactory.getLogger(WriteCsvToResponse.class);
+    private static final Logger log = LoggerFactory.getLogger(MySurveysController.class);
     private SurveyRepository surveyRepo;
     private QuestionRepository questionRepo;
 
@@ -58,6 +58,7 @@ public class MySurveysController {
         }
         else {
             SurveyDTO surveyDTO = new SurveyDTO(survey);
+            log.trace("Survey {} is being edited", surveyId);
             model.addAttribute("surveyDto", surveyDTO);
             return "editSurvey";
         }
@@ -105,6 +106,7 @@ public class MySurveysController {
                 }
             }
         }
+        log.debug("Survey {} is updated after edit", survey.getId());
         surveyRepo.save(survey);
         return survey;
     }

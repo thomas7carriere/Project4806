@@ -1,5 +1,8 @@
 package application.models;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
 @Entity
 @DiscriminatorValue("1")
 public class MultipleChoiceQuestion extends Question{
-
+    private static final Logger log = LoggerFactory.getLogger(MultipleChoiceQuestion.class);
     /**
      *  Holds the collection of choices a user can choose from
      */
@@ -146,6 +149,7 @@ public class MultipleChoiceQuestion extends Question{
         ResultDTO resultDTO = new ResultDTO(getQuestion(), QuestionDTO.MULTIPLECHOICE);
         List<List<Object>> list = new ArrayList<>();
         answersValues.forEach((k,v)-> list.add(Arrays.asList(choicesID.get(k), v)));
+        log.debug("Populating a result DTO with size {}", list.size());
         resultDTO.setChartData(list);
 
         return resultDTO;

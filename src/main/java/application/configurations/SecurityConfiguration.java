@@ -45,6 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mysurveys").hasRole(("SURVEYOR"))
                 .antMatchers("/cheat").hasRole("SURVEYOR")
                 .antMatchers("/export").hasRole("SURVEYOR")
+                .antMatchers("/log_**").hasRole("SURVEYOR")
                 .antMatchers("/mysurveys/edit/**").hasAnyRole("SURVEYOR")
                 .antMatchers("/mysurveys/export/**").hasRole("SURVEYOR")
                 .antMatchers("/mysurveys/view/**").hasAnyRole("SURVEYOR")
