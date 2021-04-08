@@ -82,11 +82,10 @@ public class MySurveysController {
         List<Question> originalQs = survey.getQuestions();
         Map<Long, String> edited = editDTO.getEdited();
         for (Map.Entry<Long, String> e : edited.entrySet()){
-            for(Question q : originalQs){
-                if(q.getId().equals(e.getKey())){
-                    q.setQuestion(e.getValue());
-                }
-            }
+            long questionId = e.getKey();
+            String editedQ = e.getValue();
+            Question question = questionRepo.findById(questionId);
+            question.setQuestion(editedQ);
         }
         Collection<QuestionDTO> newQuestions = editDTO.getNewQuestions();
         System.out.println(newQuestions != null);

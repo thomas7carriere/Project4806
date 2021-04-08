@@ -16,9 +16,10 @@
             <input type = "text" id = "surveyN" th:name = "${surveyDto.id}" th:value = "${surveyDto.name}">
         </p>
     </div>
-    <div th:each = "questionDto : ${surveyDto.questions}" class = "editableQs"><br>
+    <div class = "editableQs">
+        <th:block th:each= "questionDto : ${surveyDto.questions}"><br>
         <label th:text = "'Edit ' + ${questionDto.questionType} + ' Question '+  ${questionDtoStat.count}"></label>
-        <input type = "text" th:id ="'q'+${questionDtoStat.count}"  th:name = "${questionDto.ID}" th:value = "${questionDto.question}">
+        <input type = "text" th:id ="'q'+${questionDtoStat.count}"  th:name = "${questionDto.ID}" th:value = "${questionDto.question}"></th:block>
     </div>
 </form>
 
