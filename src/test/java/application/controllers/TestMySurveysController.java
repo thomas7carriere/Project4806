@@ -1,10 +1,7 @@
 package application.controllers;
 
-import application.models.Survey;
 import application.models.dto.EditDTO;
-import application.models.OpenEndedQuestion;
 import application.models.dto.QuestionDTO;
-import application.models.dto.SurveyDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
