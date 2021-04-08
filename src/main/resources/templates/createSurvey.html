@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/scripts/createSurvey.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles.css">
+    <script type="text/javascript" src="/scripts/mySurveys.js"></script>
 </head>
 <body>
 
@@ -24,10 +26,17 @@
         <label for="numberOfMultipleChoices">Number of MC answers:</label><br>
         <input type="text" id="numberOfMultipleChoices"><br>
     </div>
-    <input type="submit" value="Create Question">
+    <input class = "CreateSurveyButton"  type="submit" value="Create Question">
 </form>
 
-<button onclick="sendSurvey()">Create Survey</button>
+<button class = "CreateSurveyButton" onclick="sendSurvey()">Create Survey</button>
+<button onclick="back()">Back</button>
+<div id="nav-placeholder"></div>
+<script>
+    $(function(){
+        $("#nav-placeholder").load("/navBar.html");
+    });
+</script>
 
 </body>
 </html>

@@ -110,4 +110,15 @@ public class TestMySurveysController {
         mockMvc.perform(get("/mysurveys/close/1")).andExpect(status().isOk())
                 .andExpect(view().name("mySurveys"));
     }
+
+    @WithMockUser(username = "admin", roles = {"SURVEYOR", "USER"})
+    @Test
+    @Order(6)
+    public void exportSurvey() throws Exception {
+        // 404 first due to survey not exist
+        mockMvc.perform(get("/mysurveys/export/9999.csv")).andExpect(status().isNotFound());
+        mockMvc.perform(get("/cheat")).andExpect(status().isOk());
+        mockMvc.perform(get("/mysurveys/export/1.csv")).andExpect(status().isOk())
+                .andExpect(content().contentType("text/csv"));
+    }
 }

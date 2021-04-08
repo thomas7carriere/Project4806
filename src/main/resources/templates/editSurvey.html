@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/scripts/editSurvey.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles.css">
+    <script type="text/javascript" src="/scripts/mySurveys.js"></script>
 </head>
 <body>
 <h2>Edit Survey</h2>
@@ -37,6 +39,13 @@
 </form><br />
 
 <button onclick="saveSurvey(event)">Save Survey</button>
+<div id="nav-placeholder"></div>
+<script>
+    $(function(){
+        $("#nav-placeholder").load("/navBar.html");
+    });
+</script>
+<button onclick="back()">Back</button>
 
 </body>
 </html>

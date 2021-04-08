@@ -68,4 +68,23 @@ public class OpenEndedQuestion extends Question{
         return resultDTO;
     }
 
+    @Override
+    public String getType() {
+        return "OE";
+    }
+
+    @Override
+    public String optionToDSV() {
+        return "";
+    }
+
+    @Override
+    public String answersToDSV() {
+        return String.join(Question.ANSWER_DELIMITER, answer);
+    }
+
+    @Override
+    public List<String> getAnswerSummaryForExport() {
+        return answer;
+    }
 }

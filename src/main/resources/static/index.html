@@ -4,13 +4,37 @@
     <title>SurveyMonkey Project</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles.css">
 </head>
+<style>
+    .centerBox {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    .monkeCenterBox{
+        max-height: 75%;
+        max-width: 75%;
+        width: 100%;
+        height: auto;
+    }
+</style>
+<h1 class = "centerBox">
+    Welcome to creating questionnaires, we hope you enjoy your stay
+    <div>
+        <img src="returnToMonke.gif" alt = "monke" class = "monkeCenterBox">
+    </div>
+
+</h1>
 <body>
-
-<p>Click to start creating a survey <a href="/survey/create">here</a></p>
-<p>Click to edit your surveys <a href="/mysurveys">here</a></p>
-<p>Click to view all surveys <a href="/survey/view">here</a></p>
-<p>Click for help <a href="/survey/help">here</a></p>
-
+<div id="nav-placeholder">
+</div>
+<script>
+    $.get("navBar.html", function(data){
+        $("#nav-placeholder").replaceWith(data);
+    });
+</script>
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -130,5 +131,51 @@ public class TestMultipleChoiceQuestion {
         assertEquals(mcQuestion.getQuestion(), dto.getQuestion());
         assertEquals(QuestionDTO.MULTIPLECHOICE, dto.getQuestionType());
         assertEquals(1, dto.getChartData().size());
+    }
+
+    @Test
+    public void TestGetType() {
+        assertEquals("MC", mcQuestion.getType());
+    }
+
+    @Test
+    public void TestOptionToDSV() {
+        mcQuestion.addChoice(CHOICEONE);
+        mcQuestion.addChoice(CHOICETWO);
+        mcQuestion.addChoice(CHOICETHREE);
+        mcQuestion.addChoice(CHOICEFOUR);
+        assertEquals(String.format("%s:%s|%s:%s|%s:%s|%s:%s",
+                1,CHOICEONE,
+                2,CHOICETWO,
+                3,CHOICETHREE,
+                4,CHOICEFOUR),
+                mcQuestion.optionToDSV());
+    }
+
+    @Test
+    public void TestAnswersToDSV() {
+        mcQuestion.addChoice(CHOICEONE);
+        mcQuestion.addChoice(CHOICETWO);
+        mcQuestion.addAnswer(1);
+        mcQuestion.addAnswer(2);
+
+        assertEquals("1*1", mcQuestion.answersToDSV());
+    }
+
+    @Test
+    public void TestGetAnswerSummaryForExport() {
+        List<String> summary = new ArrayList<>();
+        summary.add("Answer Options,\"Response Percent\",\"Response Count\"");
+        summary.add(String.format("%s,\"25.00%%\",1",CHOICEONE));
+        summary.add(String.format("%s,\"50.00%%\",2",CHOICETWO));
+        summary.add(String.format("%s,\"25.00%%\",1",CHOICETHREE));
+        mcQuestion.addChoice(CHOICEONE);
+        mcQuestion.addChoice(CHOICETWO);
+        mcQuestion.addChoice(CHOICETHREE);
+        mcQuestion.addAnswer(1);
+        mcQuestion.addAnswer(2);
+        mcQuestion.addAnswer(2);
+        mcQuestion.addAnswer(3);
+        assertEquals(summary, mcQuestion.getAnswerSummaryForExport());
     }
 }
