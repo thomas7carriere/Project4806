@@ -1,12 +1,9 @@
-package application.models;
+package application.models.dto;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -44,7 +41,7 @@ public class TestEditDTO {
 
     @Test
     public void constructorTest(){
-        editDTO = new EditDTO(TEST_SURVEY_ID,TEST_NEW_QUESTION_DTO_LIST, TEST_EDITED_QUESTIONS, TEST_SURVEY_NAME);
+        editDTO = new EditDTO(TEST_SURVEY_ID, TEST_SURVEY_NAME, TEST_NEW_QUESTION_DTO_LIST, TEST_EDITED_QUESTIONS);
         assertEquals(TEST_SURVEY_NAME, editDTO.getSurveyName());
         assertEquals(10, editDTO.getSurveyID());
         assertEquals(TEST_NEW_QUESTION_DTO_LIST, editDTO.getNewQuestions());

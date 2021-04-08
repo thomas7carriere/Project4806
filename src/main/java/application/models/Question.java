@@ -1,7 +1,12 @@
 package application.models;
 
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.opencsv.bean.CsvBindByName;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,6 +14,10 @@ import java.util.List;
 @Entity(name="questions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="question_type", discriminatorType = DiscriminatorType.INTEGER)
+
+@Getter
+@Setter
+@NoArgsConstructor
 abstract public class Question {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -23,27 +32,8 @@ abstract public class Question {
      */
     protected static final String ANSWER_DELIMITER = "*";
 
-    public Question(){
-    }
-
     public Question(String question){
         this.question = question;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     /**

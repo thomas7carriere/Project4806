@@ -2,6 +2,10 @@ package application.controllers;
 
 import application.csv.WriteCsvToResponse;
 import application.models.*;
+import application.models.dto.EditDTO;
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
+import application.models.dto.SurveyDTO;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.slf4j.Logger;
@@ -87,7 +91,7 @@ public class MySurveysController {
             question.setQuestion(editedQ);
         }
         Collection<QuestionDTO> newQuestions = editDTO.getNewQuestions();
-        System.out.println(newQuestions != null);
+
         if(newQuestions != null){
             for(QuestionDTO question: newQuestions){
                 switch(question.getQuestionType()){

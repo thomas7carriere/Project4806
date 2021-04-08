@@ -1,10 +1,14 @@
 package application.models;
 
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +19,8 @@ import java.util.List;
  */
 @Entity
 @DiscriminatorValue("3")
+@Getter
+@Setter
 public class OpenEndedQuestion extends Question{
 
     /**
@@ -40,24 +46,6 @@ public class OpenEndedQuestion extends Question{
     }
 
     /**
-     * Return the collection of answers to this question
-     *
-     * @return the collection of answers to this question
-     */
-    public Collection<String> getAnswer() {
-        return answer;
-    }
-
-    /**
-     * Replace the collection of answers with the specified collection
-     *
-     * @param answer collection used to replaced existing answer
-     */
-    public void setAnswer(List<String> answer) {
-        this.answer = answer;
-    }
-
-    /**
      * Add an answer to the collection of answers
      *
      * @param answer answer to be added into the collection
@@ -69,7 +57,7 @@ public class OpenEndedQuestion extends Question{
 
     @Override
     public QuestionDTO toDto() {
-        return new QuestionDTO(QuestionDTO.OPENENDED, this.getQuestion(), 0, 0, new ArrayList<>(),super.getId());
+        return new QuestionDTO(QuestionDTO.OPENENDED, this.getQuestion(), 0, 0, new ArrayList<>(), super.getId());
     }
 
     @Override
