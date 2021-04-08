@@ -79,7 +79,6 @@ public class MySurveysController {
             );
         }
         survey.setName(editDTO.getSurveyName());
-        List<Question> originalQs = survey.getQuestions();
         Map<Long, String> edited = editDTO.getEdited();
         for (Map.Entry<Long, String> e : edited.entrySet()){
             long questionId = e.getKey();
