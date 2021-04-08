@@ -83,11 +83,13 @@ function saveSurvey(e){
             editDTO["newQuestions"][i - 1] = formArray;
         }
     }
-    $(".editableQs input").each(function(){
-        var edit = objectifyForm($(this).serializeArray());
+
+    $(".editableQs").each(function() {
+        var edit = objectifyForm($(this).find(':input').serializeArray());
         editDTO["edited"] = edit;
+        console.log(JSON.stringify(editDTO));
     });
-    console.log(JSON.stringify(editDTO));
+
     $.ajax({
         url: "/mysurveys/edit",
         type: 'PATCH',

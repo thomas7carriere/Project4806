@@ -1,8 +1,8 @@
 package application.controllers;
 
-import application.models.EditDTO;
+import application.models.dto.EditDTO;
 import application.models.OpenEndedQuestion;
-import application.models.QuestionDTO;
+import application.models.dto.QuestionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
@@ -14,12 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -55,10 +52,10 @@ public class TestMySurveysController {
         newQuestions.add(q2);
 
         String surveyName = "Test Survey";
-        Long surveyId = 10L;
+        long surveyId = 10L;
         editedQuestions = new HashMap<>();
         editedQuestions.put(q1.getId(), "edit1");
-        editDTO = new EditDTO(surveyId, newQuestions, editedQuestions, surveyName);
+        editDTO = new EditDTO(surveyId, surveyName, newQuestions, editedQuestions);
     }
 
     @Test

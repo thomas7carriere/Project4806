@@ -1,6 +1,9 @@
 package application.controllers;
 
 import application.models.*;
+import application.models.dto.AnswerDTO;
+import application.models.dto.QuestionDTO;
+import application.models.dto.SurveyDTO;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +27,8 @@ public class SurveyController{
     private final String SURVEY_ANSWER = "/survey/answer";
     private final String HELP_PAGE = "/survey/help";
 
-
-    private SurveyRepository surveyRepo;
-    private QuestionRepository questionRepo;
+    private final SurveyRepository surveyRepo;
+    private final QuestionRepository questionRepo;
 
     @Autowired
     public SurveyController(SurveyRepository surveyRepo, QuestionRepository questionRepo) {

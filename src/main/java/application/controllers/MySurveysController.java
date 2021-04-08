@@ -2,6 +2,10 @@ package application.controllers;
 
 import application.csv.WriteCsvToResponse;
 import application.models.*;
+import application.models.dto.EditDTO;
+import application.models.dto.QuestionDTO;
+import application.models.dto.ResultDTO;
+import application.models.dto.SurveyDTO;
 import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import org.slf4j.Logger;
@@ -80,17 +84,15 @@ public class MySurveysController {
             );
         }
         survey.setName(editDTO.getSurveyName());
-        List<Question> originalQs = survey.getQuestions();
         Map<Long, String> edited = editDTO.getEdited();
         for (Map.Entry<Long, String> e : edited.entrySet()){
-            for(Question q : originalQs){
-                if(q.getId().equals(e.getKey())){
-                    q.setQuestion(e.getValue());
-                }
-            }
+            long questionId = e.getKey();
+            String editedQ = e.getValue();
+            Question question = questionRepo.findById(questionId);
+            question.setQuestion(editedQ);
         }
         Collection<QuestionDTO> newQuestions = editDTO.getNewQuestions();
-        System.out.println(newQuestions != null);
+
         if(newQuestions != null){
             for(QuestionDTO question: newQuestions){
                 switch(question.getQuestionType()){
