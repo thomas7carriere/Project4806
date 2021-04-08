@@ -6,11 +6,14 @@ import application.repositories.QuestionRepository;
 import application.repositories.SurveyRepository;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +26,8 @@ import java.util.List;
  */
 @Controller
 class DevToolController {
-    private static final Logger log = LoggerFactory.getLogger(WriteCsvToResponse.class);
+    private static final Logger log = LoggerFactory.getLogger(DevToolController.class);
+
     private SurveyRepository surveyRepo;
     private QuestionRepository questionRepo;
     private int surveyCount = 0;
@@ -86,6 +90,27 @@ class DevToolController {
         List<Survey> list = Lists.newArrayList(surveys);
 
         WriteCsvToResponse.writeSurveys(response.getWriter(), list);
-        log.info("DevTool export function was triggered with %d surveys", list.size());
+        log.info("DevTool export function was triggered with {} surveys", list.size());
+    }
+
+    private final static List<String> VALID_LEVELS =  Lists.newArrayList("TRACE", "DEBUG", "INFO", "WARN", "ERROR");
+
+    /***
+     * Developer tool used to set the log level of this software package
+     * @param logLevel logback log level
+     * @return status message directly in response body
+     */
+    @GetMapping("/log_{logLevel}")
+    @ResponseBody
+    private String setLogLevel(@PathVariable String logLevel) {
+        if (VALID_LEVELS.contains(logLevel)) {
+            LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            ch.qos.logback.classic.Logger logger = loggerContext.getLogger("application");
+            logger.setLevel(Level.toLevel(logLevel));
+
+            return String.format("logLevel changed to %s", logLevel);
+        } else {
+            return String.format("invalid log level %s", logLevel);
+        }
     }
 }

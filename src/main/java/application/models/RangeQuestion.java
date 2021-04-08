@@ -3,6 +3,8 @@ package application.models;
 import application.models.dto.QuestionDTO;
 import application.models.dto.ResultDTO;
 import com.google.common.collect.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -23,6 +25,7 @@ import lombok.Setter;
 @Setter
 public class RangeQuestion extends Question
 {
+    private static final Logger log = LoggerFactory.getLogger(RangeQuestion.class);
     protected int min;
     protected int max;
     @ElementCollection
@@ -68,6 +71,7 @@ public class RangeQuestion extends Question
         ResultDTO resultDTO = new ResultDTO(getQuestion(), QuestionDTO.RANGE);
         List<List<Object>> list = new ArrayList<>();
         answer.forEach(e-> list.add(Arrays.asList("",e)));
+        log.debug("Populating a result DTO with size {}", list.size());
         resultDTO.setChartData(list);
 
         return resultDTO;
