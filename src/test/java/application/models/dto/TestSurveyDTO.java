@@ -1,7 +1,11 @@
-package application.models;
+package application.models.dto;
 
-import application.models.dto.QuestionDTO;
-import application.models.dto.SurveyDTO;
+import application.models.MultipleChoiceQuestion;
+import application.models.OpenEndedQuestion;
+import application.models.Question;
+import application.models.RangeQuestion;
+import application.models.Survey;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

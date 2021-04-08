@@ -1,7 +1,5 @@
-package application.models;
+package application.models.dto;
 
-import application.models.dto.EditDTO;
-import application.models.dto.QuestionDTO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
