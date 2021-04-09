@@ -51,7 +51,7 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 		<td>3</td>
 		<td>
             <ul>
-				<li>PostGres database on Heroku</li>
+				<li>PostGreSQL database on Heroku</li>
                 <li>Export survey data</li>
                 <li>CSS styling</li>
                 <li>Improved website navigation</li>
