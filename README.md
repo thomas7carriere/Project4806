@@ -51,9 +51,16 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 		<td>3</td>
 		<td>
             <ul>
-				<li>Presentation Topics</li>
-                <li>Database on Heroku</li>
-			</ul>
+				<li>PostGres database on Heroku</li>
+                <li>Export survey data</li>
+                <li>CSS styling</li>
+                <li>Improved website navigation</li>
+                <li>Presentation Topics</li>
+                <ul>
+                    <li>Jib</li>
+                    <li>Lombok</li>
+                </ul>
+            </ul>
         </td>
 	</tr>
 </table>
@@ -141,6 +148,30 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 	</tr>
     <tr>
 		<td>/mysurveys/results/{surveyId}</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+		<td>/mysurveys/export/{surveyId}.csv</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+		<td>/export</td>
+		<td>
+			<ul>
+				<li>GET</li>
+			</ul>
+		</td>
+	</tr>
+    <tr>
+		<td>/log_{logLevel}</td>
 		<td>
 			<ul>
 				<li>GET</li>
