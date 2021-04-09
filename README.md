@@ -185,4 +185,4 @@ Surveyor can create a survey with a list of Questions. Questions can be open-end
 
 - Heroku: https://project4806.herokuapp.com/
 - TravisCI: https://www.travis-ci.com/github/thomas7carriere/Project4806
-- Database Schema: [Schema](https://github.com/thomas7carriere/Project4806/blob/master/Documents/Schema-Mileston e.png?raw=true)
+- Database Schema: [Schema](https://github.com/thomas7carriere/Project4806/blob/master/Documents/Schema-Milestone.png?raw=true)
