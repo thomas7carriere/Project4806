@@ -1,7 +1,6 @@
 package application.controllers;
 
 import application.models.dto.EditDTO;
-import application.models.OpenEndedQuestion;
 import application.models.dto.QuestionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
@@ -27,35 +26,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 public class TestMySurveysController {
+    private static Long surveyId = 10L;
+
     @Autowired
     private MockMvc mockMvc;
-    private OpenEndedQuestion q1;
+    private QuestionDTO q1;
     private QuestionDTO q2;
     private EditDTO editDTO;
-    private Collection<QuestionDTO> newQuestions;
     private HashMap<Long, String> editedQuestions;
+    private Collection<QuestionDTO> newQuestions;
+    private String editedName;
+
 
     @InjectMocks
     private SurveyController mySurveysController;
 
     @BeforeEach
     public void setUp() {
-        q1= new OpenEndedQuestion();
-        q1.setQuestion("Test Multi");
-        q1.setId(6L);
-        q2 = new QuestionDTO();
-        q2.setQuestionType(QuestionDTO.OPENENDED);
-        q2.setQuestion("OpenEnded Question?");
-        q2.setID(1L);
-
         newQuestions = new ArrayList<>();
+        q1 = new QuestionDTO();
+        q2 = new QuestionDTO();
+        q1.setQuestionType(QuestionDTO.OPENENDED);
+        q2.setQuestionType(QuestionDTO.OPENENDED);
+        q1.setQuestion("Test Q1");
+        q2.setQuestion("Test Q2");
+        q1.setID(1L);
+        q2.setID(2L);
+        newQuestions.add(q1);
         newQuestions.add(q2);
-
-        String surveyName = "Test Survey";
-        long surveyId = 10L;
+        editedName = "Edited Survey Name";
         editedQuestions = new HashMap<>();
-        editedQuestions.put(q1.getId(), "edit1");
-        editDTO = new EditDTO(surveyId, surveyName, newQuestions, editedQuestions);
+        editDTO = new EditDTO();
+        editDTO.setEdited(editedQuestions);
+        editDTO.setNewQuestions(newQuestions);
+        editDTO.setSurveyName(editedName);
+        editDTO.setSurveyID(1);
     }
 
     @Test
@@ -94,10 +99,10 @@ public class TestMySurveysController {
     public void editSurvey() throws Exception {
         mockMvc.perform(get("/mysurveys/edit/4050")).andExpect(status().isNotFound());
         mockMvc.perform(get("/cheat")).andExpect(status().isOk());
-        mockMvc.perform(get("/mysurveys/edit/1")).andExpect(status().isOk()).andExpect(view().name("editSurvey"));
         ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(get("/mysurveys/edit/1")).andExpect(status().isOk()).andExpect(view().name("editSurvey"));
         mockMvc.perform(patch("/mysurveys/edit").content(objectMapper.writeValueAsString(editDTO)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isConflict()).andReturn();
+                .andExpect(status().isOk()).andReturn();
     }
 
     @WithMockUser(username = "admin", roles = {"SURVEYOR", "USER"})
